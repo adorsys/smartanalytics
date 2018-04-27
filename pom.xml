@@ -42,7 +42,9 @@
     </developers>
     <scm>
         <connection>scm:git:https://git.adorsys.de/adorsys/smartanalytics.git</connection>
-        <tag>develop</tag>
+        <developerConnection>scm:git:https://git.adorsys.de/adorsys/smartanalytics.git</developerConnection>
+        <url>git@github.com:adorsys/smartanalytics.git</url>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
