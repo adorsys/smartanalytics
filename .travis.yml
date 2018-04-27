@@ -24,5 +24,5 @@ deploy:
     script: mvn --settings scripts/mvn-release-settings.xml deploy -Prelease -DskipTests -B -U
     on:
       tags: true
-      # matches: X.Y.Z, X.Y.Z-A, X.Y.Z-RCA, X.Y.Z-A-B.C.D, X.Y.Z-A-B.C.D-E, X.Y.Z-RCA-B.C.D-E
-      condition: "$TRAVIS_TAG =~ ^([[:digit:]]+\\.)+[[:digit:]]+(-(RC)?[[:digit:]]+)?(-([[:digit:]]+\\.)+[[:digit:]]+(-[[:digit:]]+)?)?$"
+      # matches: vX.Y.Z, vX.Y.Z-A, vX.Y.Z-RCA, vX.Y.Z-A-B.C.D, vX.Y.Z-A-B.C.D-E, vX.Y.Z-RCA-B.C.D-E
+      condition: "$TRAVIS_TAG =~ ^v([[:digit:]]+\\.)+[[:digit:]]+(-(RC)?[[:digit:]]+)?(-([[:digit:]]+\\.)+[[:digit:]]+(-[[:digit:]]+)?)?$"
