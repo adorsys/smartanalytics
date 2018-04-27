@@ -58,7 +58,8 @@ public class BookingGroup {
     /**
      * Calculate the effectiveness of the category.
      *
-     * @param referenceDate
+     * @param referenceDate - a date on that the category is effective
+     * @param bookings - bookings to consider
      * @return true if the time difference between given date and
      * youngest booking is in the valid range of the category cycle otherwise false
      */
