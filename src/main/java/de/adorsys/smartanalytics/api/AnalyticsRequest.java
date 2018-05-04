@@ -33,8 +33,7 @@ public class AnalyticsRequest {
     private LocalDate referenceDate;
     private List<Booking> bookings;
     private List<Rule> customRules;
-    private List<Group> groups;
-    private List<String> groupWhiteListMatcher;
+    private GroupConfig groupConfig;
     private List<String> contractBlackListMatcher;
 
 }

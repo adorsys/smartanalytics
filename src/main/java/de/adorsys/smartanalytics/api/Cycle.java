@@ -72,23 +72,23 @@ public enum Cycle {
         return !withinTolerance.isEmpty();
     }
 
-    public LocalDate nextBookingDate(LocalDate datum) {
+    public LocalDate nextBookingDate(LocalDate bookingDate) {
         if (this == WEEKLY) {
-            return datum.plusWeeks(1);
+            return bookingDate.plusWeeks(1);
         }
         if (this == MONTHLY) {
-            return datum.plusMonths(1);
+            return bookingDate.plusMonths(1);
         }
         if (this == TWO_MONTHLY) {
-            return datum.plusMonths(2);
+            return bookingDate.plusMonths(2);
         }
         if (this == QUARTERLY) {
-            return datum.plusMonths(3);
+            return bookingDate.plusMonths(3);
         }
         if (this == HALF_YEARLY) {
-            return datum.plusMonths(6);
+            return bookingDate.plusMonths(6);
         }
-        return datum.plusYears(1);
+        return bookingDate.plusYears(1);
     }
 
     public int getMinDays() {
