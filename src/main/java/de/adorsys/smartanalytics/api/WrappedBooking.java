@@ -51,7 +51,28 @@ public class WrappedBooking implements Cloneable {
     private Cycle cycle;
     // *****************************************
 
+    // @Builder.Default does not work. Shall be the clean solution.
     private Set<String> usedRules = new HashSet<>();
+    
+    /**
+     * We need to override the builder to perform any
+     * constructor operations we need. Since we know builder uses
+     * the all args constructor and uses null to initialized all 
+     * unset fields.
+     * 
+     * @return
+     */
+    public static WrappedBookingBuilder builder(){
+    	return new WrappedBookingBuilder(){
+			@Override
+			public WrappedBooking build() {
+				WrappedBooking wrappedBooking = super.build();
+				wrappedBooking.setUsedRules(new HashSet<>());
+				return wrappedBooking;
+			}
+    	};
+    }    
+    
 
     public WrappedBooking(Booking booking) {
         this.booking = booking;
