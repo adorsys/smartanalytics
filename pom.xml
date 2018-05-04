@@ -21,7 +21,7 @@
 
     <groupId>de.adorsys.smartanalytics</groupId>
     <artifactId>smartanalytics-api</artifactId>
-    <version>0.5-SNAPSHOT</version>
+    <version>0.5.0</version>
     <packaging>jar</packaging>
     <name>smartanalytics-api</name>
     <url>https://github.com/adorsys/smartanalytics</url>
