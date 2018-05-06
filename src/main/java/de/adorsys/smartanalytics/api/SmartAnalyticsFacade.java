@@ -1,10 +1,5 @@
 package de.adorsys.smartanalytics.api;
 
-import java.time.LocalDate;
-
-import de.adorsys.smartanalytics.api.AnalyticsRequest;
-import de.adorsys.smartanalytics.api.AnalyticsResult;
-
 /**
  * Provides access to an analytics service. 
  * 
@@ -15,5 +10,5 @@ import de.adorsys.smartanalytics.api.AnalyticsResult;
  *
  */
 public interface SmartAnalyticsFacade {
-	public AnalyticsResult analyzeBookings(AnalyticsRequest analyticsRequest, LocalDate referenceDate);
+	public AnalyticsResult analyzeBookings(AnalyticsRequest analyticsRequest);
 }
