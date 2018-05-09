@@ -30,12 +30,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Booking implements Cloneable {
 
-    public enum BookingType {
-        STANDING_ORDER,
-        INCOME,
-        DEBIT
-    }
-
     private String bookingId;
     private String referenceName;
     private String creditorId;
@@ -45,8 +39,7 @@ public class Booking implements Cloneable {
     private String bankCode;
     private BigDecimal amount;
     private LocalDate executionDate;
-    private LocalDate orderDate;
-    private BookingType type;
+    private boolean standingOrder;
     private String mandateReference;
 
     @Override

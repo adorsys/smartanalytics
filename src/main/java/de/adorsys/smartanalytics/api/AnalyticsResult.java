@@ -28,7 +28,6 @@ import java.util.Set;
 public class AnalyticsResult {
 
     private List<WrappedBooking> bookings = new ArrayList<>();
-    private Set<BookingGroup> bookingGroups;
-    private Budget budget;
+    private List<BookingGroup> bookingGroups;
 
 }

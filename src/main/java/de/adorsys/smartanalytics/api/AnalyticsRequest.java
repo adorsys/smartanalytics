@@ -30,7 +30,6 @@ import java.util.List;
 @NoArgsConstructor
 public class AnalyticsRequest {
 
-    private LocalDate referenceDate;
     private List<Booking> bookings;
     private List<Rule> customRules;
     private GroupConfig groupConfig;

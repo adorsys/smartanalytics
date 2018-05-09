@@ -30,12 +30,12 @@ public class BookingGroup {
     private String firstKey;
     private String secondKey;
 
+    private Group.Type groupType;
+    private String name;
+
     protected Cycle cycle;
-    private boolean variable = false;
     private BigDecimal amount;
-    private List<LocalDate> bookingDates;
-    private LocalDate nextExecutionDate;
-    private Booking.BookingType bookingType;
+    private List<BookingPeriod> bookingPeriods;
 
     private String mainCategory;
     private String subCategory;
@@ -47,12 +47,13 @@ public class BookingGroup {
     private boolean contract;
 
     private String mandatreference;
-    private String provider;
+    private String otherAccount;
 
-    public BookingGroup(String firstKey, String secondKey, Booking.BookingType bookingType) {
+    public BookingGroup(String firstKey, String secondKey, String name, Group.Type groupType) {
         this.firstKey = firstKey;
         this.secondKey = secondKey;
-        this.bookingType = bookingType;
+        this.name = name;
+        this.groupType = groupType;
     }
 
     /**
@@ -61,9 +62,13 @@ public class BookingGroup {
      * @param referenceDate - a date on that the category is effective
      * @param bookings - bookings to consider
      * @return true if the time difference between given date and
-     * youngest booking is in the valid range of the category cycle otherwise false
+     * youngest booking is in the valid range of the category cycle, otherwise false
      */
     public boolean isEffective(LocalDate referenceDate, List<WrappedBooking> bookings) {
         return cycle != null && (cycle.isValid(bookings.get(bookings.size() - 1).getExecutionDate(), referenceDate));
+    }
+
+    public boolean isIncome() {
+        return getGroupType() == Group.Type.RECURRENT_INCOME || getGroupType() == Group.Type.OTHER_INCOME;
     }
 }

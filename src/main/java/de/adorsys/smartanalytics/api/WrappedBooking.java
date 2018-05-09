@@ -34,24 +34,22 @@ public class WrappedBooking implements Cloneable {
 
     protected Booking booking;
 
-    // ******** rule provided fields **********
+    // ******** categorization provided fields **********
     private String mainCategory;
     private String subCategory;
     private String specification;
-    private String receiver;
+    private String otherAccount;
     private String logo;
     private String homepage;
     private String hotline;
     private String email;
+    private Set<String> usedRules = new HashSet<>();
     // *****************************************
 
-    // ******** budget provided fields *********
+    // ******** classification provided fields *********
     private LocalDate nextBookingDate;
-    private boolean variable;
     private Cycle cycle;
     // *****************************************
-
-    private Set<String> usedRules = new HashSet<>();
 
     public WrappedBooking(Booking booking) {
         this.booking = booking;
@@ -124,11 +122,11 @@ public class WrappedBooking implements Cloneable {
         return booking.getMandateReference();
     }
 
-    public Booking.BookingType getType() {
+    public boolean isStandingOrder() {
         if (booking == null) {
-            return null;
+            return false;
         }
-        return booking.getType();
+        return booking.isStandingOrder();
     }
 
     public Set<String> getRuleIds() {

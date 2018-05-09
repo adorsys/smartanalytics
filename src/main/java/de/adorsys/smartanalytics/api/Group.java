@@ -30,7 +30,7 @@ import java.util.List;
 public class Group {
 
     public enum Type {
-        STANDING_ORDER, RECURRENT_INCOME, RECURRENT_SEPA, RECURRENT_NONSEPA, VARIABLE
+        STANDING_ORDER, RECURRENT_INCOME, RECURRENT_SEPA, RECURRENT_NONSEPA, CUSTOM, OTHER_INCOME, OTHER_EXPENSES
     }
 
     private String name;
