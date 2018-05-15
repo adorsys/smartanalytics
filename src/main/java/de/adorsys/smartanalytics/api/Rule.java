@@ -40,6 +40,6 @@ public class Rule {
     private String homepage;
     private String email;
 
-    private boolean isFinal;
+    private boolean stop;
     private boolean incoming;
 }
