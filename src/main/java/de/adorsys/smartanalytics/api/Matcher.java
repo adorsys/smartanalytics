@@ -19,4 +19,5 @@ package de.adorsys.smartanalytics.api;
 public interface Matcher {
 
     boolean match(WrappedBooking obj);
+
 }
