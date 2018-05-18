@@ -17,10 +17,8 @@
 package de.adorsys.smartanalytics.api;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -147,7 +145,7 @@ public class WrappedBooking implements Cloneable {
         if (getIban() != null) {
             return getIban();
         }
-        if (StringUtils.isNotBlank(getBankCode()) && StringUtils.isNotBlank(getAccountNumber())) {
+        if (getBankCode() != null && getBankCode().length() > 0 && getAccountNumber() != null && getAccountNumber().length() > 0) {
             return getBankCode() + getAccountNumber();
         }
         return getReferenceName();

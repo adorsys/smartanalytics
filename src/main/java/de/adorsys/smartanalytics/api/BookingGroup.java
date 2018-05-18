@@ -71,4 +71,9 @@ public class BookingGroup {
     public boolean isIncome() {
         return getGroupType() == Group.Type.RECURRENT_INCOME || getGroupType() == Group.Type.OTHER_INCOME;
     }
+
+    public boolean isRecurrent() {
+        return getGroupType() != Group.Type.CUSTOM && getGroupType() != Group.Type.OTHER_INCOME &&
+            getGroupType() != Group.Type.OTHER_EXPENSES;
+    }
 }
