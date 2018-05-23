@@ -14,6 +14,6 @@ import java.util.List;
 public class GroupConfig {
 
     private List<Group> groups;
-    private List<String> groupWhiteListMatcher;
+    private List<String> recurrentWhiteListMatcher;
 
 }
