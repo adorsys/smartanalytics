@@ -25,21 +25,20 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Booking implements Cloneable {
 
     private String bookingId;
     private String referenceName;
-    private String creditorId;
     private String purpose;
+    private BigDecimal amount;
+    private LocalDate executionDate;
+    private String creditorId;
+    private boolean standingOrder;
     private String iban;
     private String accountNumber;
     private String bankCode;
-    private BigDecimal amount;
-    private LocalDate executionDate;
-    private boolean standingOrder;
     private String mandateReference;
 
     @Override
