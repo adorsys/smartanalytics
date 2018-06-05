@@ -18,6 +18,8 @@ package de.adorsys.smartanalytics.api;
 
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 public class Rule {
 
@@ -39,6 +41,8 @@ public class Rule {
     private String hotline;
     private String homepage;
     private String email;
+
+    private Map<String, String> custom;
 
     private boolean stop;
     private boolean incoming;

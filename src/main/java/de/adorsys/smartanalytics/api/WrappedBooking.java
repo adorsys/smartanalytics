@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -41,6 +42,7 @@ public class WrappedBooking implements Cloneable {
     private String homepage;
     private String hotline;
     private String email;
+    private Map<String, String> custom;
     private Set<String> usedRules = new HashSet<>();
     // *****************************************
 
@@ -149,6 +151,19 @@ public class WrappedBooking implements Cloneable {
             return getBankCode() + getAccountNumber();
         }
         return getReferenceName();
+    }
+
+    public void applyRule(Rule rule) {
+        setMainCategory(rule.getMainCategory());
+        setSubCategory(rule.getSubCategory());
+        setSpecification(rule.getSpecification());
+        setEmail(rule.getEmail());
+        setHomepage(rule.getHomepage());
+        setLogo(rule.getLogo());
+        setOtherAccount(rule.getReceiver());
+        setHotline(rule.getHotline());
+        setCustom(rule.getCustom());
+        putUsedRule(rule.getRuleId());
     }
 
     public void putUsedRule(String id) {
