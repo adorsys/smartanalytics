@@ -19,6 +19,7 @@ package de.adorsys.smartanalytics.api;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +28,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class AnalyticsResult {
 
+    private RulesStatus rulesStatus;
     private List<WrappedBooking> bookings = new ArrayList<>();
     private List<BookingGroup> bookingGroups;
 

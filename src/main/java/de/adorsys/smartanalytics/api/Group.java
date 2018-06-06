@@ -35,6 +35,7 @@ public class Group {
 
     private String name;
     private Type type;
-    private List<String> matcher;
+    private List<String> whitelistMatcher;
+    private List<String> blacklistMatcher;
 
 }
