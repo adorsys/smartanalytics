@@ -30,6 +30,6 @@ public class AnalyticsResult {
 
     private RulesStatus rulesStatus;
     private List<WrappedBooking> bookings = new ArrayList<>();
-    private List<BookingGroup> bookingGroups;
+    private List<BookingGroup> bookingGroups = new ArrayList<>();
 
 }

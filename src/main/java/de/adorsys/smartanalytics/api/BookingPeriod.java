@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -14,5 +15,5 @@ public class BookingPeriod {
     private LocalDate start;
     private LocalDate end;
     private BigDecimal amount;
-    private List<ExecutedBooking> bookings;
+    private List<ExecutedBooking> bookings = new ArrayList<>();
 }

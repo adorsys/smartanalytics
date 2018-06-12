@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -35,7 +36,7 @@ public class BookingGroup {
 
     protected Cycle cycle;
     private BigDecimal amount;
-    private List<BookingPeriod> bookingPeriods;
+    private List<BookingPeriod> bookingPeriods = new ArrayList<>();
 
     private String mainCategory;
     private String subCategory;
