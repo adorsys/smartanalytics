@@ -22,7 +22,7 @@ import static de.adorsys.smartanalytics.utils.RulesFactory.createExpressionMatch
 import static de.adorsys.smartanalytics.utils.RulesFactory.createSimilarityMatcher;
 
 @Slf4j
-@Service
+@Service(value="smartanalytics")
 public class AnalyticsService {
 
     @Autowired
