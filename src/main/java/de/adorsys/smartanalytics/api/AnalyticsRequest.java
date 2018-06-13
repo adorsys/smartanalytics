@@ -22,6 +22,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -30,9 +31,8 @@ import java.util.List;
 @NoArgsConstructor
 public class AnalyticsRequest {
 
-    private List<Booking> bookings;
-    private List<Rule> customRules;
+    private List<Booking> bookings = new ArrayList<>();
+    private List<Rule> customRules = new ArrayList<>();
     private GroupConfig groupConfig;
-    private List<String> contractBlackListMatcher;
-
+    private List<String> contractBlackListMatcher = new ArrayList<>();
 }

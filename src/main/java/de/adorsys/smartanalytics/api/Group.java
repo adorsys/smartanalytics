@@ -21,6 +21,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -35,7 +36,8 @@ public class Group {
 
     private String name;
     private Type type;
-    private List<String> whitelistMatcher;
-    private List<String> blacklistMatcher;
+
+    private List<String> whitelistMatcher = new ArrayList<>();
+    private List<String> blacklistMatcher = new ArrayList<>();
 
 }

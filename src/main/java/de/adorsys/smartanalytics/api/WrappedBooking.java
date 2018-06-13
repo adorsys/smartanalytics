@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class WrappedBooking implements Cloneable {
     private String homepage;
     private String hotline;
     private String email;
-    private Map<String, String> custom;
+    private Map<String, String> custom = new HashMap<>();
     private Set<String> usedRules = new HashSet<>();
     // *****************************************
 
