@@ -8,12 +8,6 @@ import de.adorsys.smartanalytics.api.WrappedBooking;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * A categorizer for recurrent non sepa bookings.
- * It will create two possible groups:
- * <li>one with bank connection and rule (only if the booking matched a modifier rule)</li>
- * <li>one with bank connection and amount</li>
- */
 public class RecurrentNonSepaGroupBuilder extends AbstractGroupBuilder {
 
     private static final Group.Type type = Group.Type.RECURRENT_NONSEPA;

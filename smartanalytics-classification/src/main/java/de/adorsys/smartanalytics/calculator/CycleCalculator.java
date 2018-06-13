@@ -20,9 +20,6 @@ public class CycleCalculator {
     public static final int MIND_ANZAHL_UMSAETZE_FUER_WOECHENTLICHES_INTERVALL = 6;
     public static final int MAX_ANZAHL_RELEVANTE_DATEN = 13;
 
-    /**
-     * liefert ein Ausfuehrungsintervall aus einer Liste von LocalDates
-     */
     public static Cycle fromDates(List<LocalDate> daten) {
         if (daten.size() == 1) {
             return YEARLY;

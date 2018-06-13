@@ -6,13 +6,6 @@ import de.adorsys.smartanalytics.api.WrappedBooking;
 
 import java.math.BigDecimal;
 
-/**
- * A categorizer for recurrent income bookings.
- * It will create three possible categories:
- * <li>one with bank connection and rule (only if the booking matched a modifier rule)</li>
- * <li>one with bank connection and purpose</li>
- * <li>one with bank connection and amount</li>
- */
 public class RecurrentIncomeGroupBuilder extends AbstractGroupBuilder {
 
     private static final Group.Type type = Group.Type.RECURRENT_INCOME;
