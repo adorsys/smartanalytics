@@ -14,133 +14,284 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	<groupId>de.adorsys.smartanalytics</groupId>
+	<artifactId>smartanalytics</artifactId>
+	<version>8.0.12-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>smartanalytics</name>
+	<url>https://github.com/adorsys/smartanalytics</url>
+	<description>Smartanalytics modules</description>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Alexander Geist</name>
+			<email>age@adorsys.de</email>
+			<organization>adorsys</organization>
+			<organizationUrl>https://adorsys.de/</organizationUrl>
+		</developer>
+	</developers>
 
-    <groupId>de.adorsys.smartanalytics</groupId>
-    <artifactId>smartanalytics-api</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>smartanalytics-api</name>
-    <url>https://github.com/adorsys/smartanalytics</url>
-    <description>Smartanalytics modules</description>
-    <licenses>
-        <license>
-            <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
-    <developers>
-        <developer>
-            <name>Alexander Geist</name>
-            <email>age@adorsys.de</email>
-            <organization>adorsys</organization>
-            <organizationUrl>https://adorsys.de/</organizationUrl>
-        </developer>
-    </developers>
-    <scm>
-        <connection>scm:git:https://git.adorsys.de/adorsys/smartanalytics.git</connection>
-        <developerConnection>scm:git:https://git.adorsys.de/adorsys/smartanalytics.git</developerConnection>
-        <url>git@github.com:adorsys/smartanalytics.git</url>
-        <tag>HEAD</tag>
-    </scm>
+	<properties>
+        <spring-boot.version>2.0.2.RELEASE</spring-boot.version>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZZ</maven.build.timestamp.format>
-        <maven.build-timestamp>${maven.build.timestamp}</maven.build-timestamp>
-    </properties>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZZ</maven.build.timestamp.format>
+		<maven.build-timestamp>${maven.build.timestamp}</maven.build-timestamp>
+		<scmBranch />
+		<start-class />
+	</properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.20</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
+	<modules>
+        <module>smartanalytics-api</module>
+		<module>smartanalytics-classification</module>
+		<module>smartanalytics-categorization</module>
+		<module>smartanalytics-persistence</module>
+		<module>smartanalytics-server</module>
+        <module>smartanalytics-core</module>
+    </modules>
 
-    <profiles>
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>sonatype</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>3.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
-                        <configuration>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+	<dependencyManagement>
+		<dependencies>
+            <!--https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-build-systems.html#using-boot-maven-without-a-parent -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+	</dependencyManagement>
 
-    <distributionManagement>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-        </repository>
-        <snapshotRepository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+	<dependencies>
+		<!-- test -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+        <finalName>${project.artifactId}</finalName>
+
+		<!--https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html#production-ready-application-info-automatic-expansion -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.1</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<showWarnings>true</showWarnings>
+						<showDeprecation>true</showDeprecation>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.5.5</version>
+					<executions>
+						<execution>
+							<id>pack-module</id>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+							<configuration>
+								<appendAssemblyId>false</appendAssemblyId>
+								<descriptors>
+									<descriptor>assembly.xml</descriptor>
+								</descriptors>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.2</version>
+				<configuration>
+					<releaseProfiles>release</releaseProfiles>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<!--https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html#production-ready-application-info-automatic-expansion -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<delimiters>
+						<delimiter>@</delimiter>
+					</delimiters>
+					<useDefaultDelimiters>false</useDefaultDelimiters>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Implementation-Version>${project.version}_${maven.build.timestamp}</Implementation-Version>
+							<Project-buildArtifact>${project.artifactId}</Project-buildArtifact>
+							<Project-buildVersion>${project.version}</Project-buildVersion>
+							<Project-buildTimestamp>${maven.build.timestamp}</Project-buildTimestamp>
+							<Project-buildNumber>${buildNumber}</Project-buildNumber>
+							<Project-buildScmBranch>${scmBranch}</Project-buildScmBranch>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.3</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- Die commit id bei "git log -abbrev-commit" ist ebenfalls 7 Zeichen. -->
+					<shortRevisionLength>7</shortRevisionLength>
+				</configuration>
+			</plugin>
+
+			<!-- attach sources -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>**/*Test.java</include>
+						<include>**/*Tests.java</include>
+						<include>**/*IT.java</include>
+						<include>**/*Documentation.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/*Abstract*.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<scm>
+		<connection>scm:git@github.com:adorsys/smartanalytics.git</connection>
+		<developerConnection>scm:git:git@github.com:adorsys/smartanalytics.git</developerConnection>
+		<url>git@github.com:adorsys/smartanalytics.git</url>
+		<tag>HEAD</tag>
+	</scm>
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<configuration>
+						</configuration>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<configuration>
+							<additionalparam>-Xdoclint:none</additionalparam>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<distributionManagement>
+		<repository>
+			<id>sonatype</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+		<snapshotRepository>
+			<id>sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 </project>
