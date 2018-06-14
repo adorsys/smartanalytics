@@ -2,7 +2,6 @@ package de.adorsys.smartanalytics.pers.file;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import de.adorsys.smartanalytics.pers.api.StatusEntity;
 import de.adorsys.smartanalytics.pers.spi.StatusRepositoryIf;

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Document
+@Document(collection = "smartanalytics-rules")
 public class RuleEntity extends Rule {
 
     @Id

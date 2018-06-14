@@ -2,6 +2,8 @@ package de.adorsys.smartanalytics.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import de.adorsys.smartanalytics.core.RulesProvider;
+import de.adorsys.smartanalytics.core.RulesService;
 import de.adorsys.smartanalytics.exception.InvalidRulesException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
 import de.adorsys.smartanalytics.pers.api.RuleEntity;
@@ -21,8 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import de.adorsys.smartanalytics.core.RulesProvider;
-import de.adorsys.smartanalytics.core.RulesService;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

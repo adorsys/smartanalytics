@@ -2,13 +2,13 @@ package de.adorsys.smartanalytics.web;
 
 import de.adorsys.smartanalytics.api.AnalyticsRequest;
 import de.adorsys.smartanalytics.api.AnalyticsResult;
+import de.adorsys.smartanalytics.core.AnalyticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import de.adorsys.smartanalytics.core.AnalyticsService;
 
 @RestController
 @RequestMapping(path = "api/v1/analytics")
