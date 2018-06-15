@@ -17,7 +17,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * Created by alexg on 08.02.17.
  */
 @Configuration
-@EnableMongoRepositories(basePackages = "de.adorsys.smartanalytics.pers")
+@EnableSmartanalyticsMongoPersistence
 @PropertySource(value = "${mongo.properties.url}", ignoreResourceNotFound = true)
 @Profile({"mongo-persistence"})
 public class MongoConfig extends AbstractMongoConfiguration {

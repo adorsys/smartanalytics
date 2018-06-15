@@ -18,48 +18,49 @@ import java.util.*;
 public class RuleRepositoryImpl implements RuleRepositoryIf {
 
     @Autowired
-    private RuleRepositoryMongodb ruleRepositoryMongodb;
+    private RuleRepositoryMongodb ruleRepositoryMongo;
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
     @Override
     public long count() {
-        return ruleRepositoryMongodb.count();
+        return ruleRepositoryMongo.count();
     }
 
     @Override
     public void deleteAll() {
-        ruleRepositoryMongodb.deleteAll();
+        ruleRepositoryMongo.deleteAll();
     }
 
     @Override
     public void saveAll(List<RuleEntity> rules) {
-        ruleRepositoryMongodb.saveAll(rules);
+        ruleRepositoryMongo.saveAll(rules);
     }
 
     @Override
     public void save(RuleEntity ruleEntity) {
-        ruleRepositoryMongodb.save(ruleEntity);
+        ruleRepositoryMongo.save(ruleEntity);
     }
 
     @Override
     public List<RuleEntity> findAll() {
-        return ruleRepositoryMongodb.findAll();
+        return ruleRepositoryMongo.findAll();
     }
 
     @Override
     public void deleteById(String id) {
-        ruleRepositoryMongodb.deleteById(id);
+        ruleRepositoryMongo.deleteById(id);
     }
 
     @Override
     public Page<RuleEntity> findAll(Pageable pageable) {
-        return ruleRepositoryMongodb.findAll(pageable);
+        return ruleRepositoryMongo.findAll(pageable);
     }
 
     @Override
     public Optional<RuleEntity> getRuleByRuleId(String ruleId) {
-        return ruleRepositoryMongodb.getRuleByRuleId(ruleId);
+        return ruleRepositoryMongo.getRuleByRuleId(ruleId);
     }
 
     @Override
