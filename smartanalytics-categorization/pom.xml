@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.adorsys.smartanalytics</groupId>
         <artifactId>smartanalytics</artifactId>
-        <version>1.1.6-SNAPSHOT</version>
+        <version>1.1.6</version>
     </parent>
 
     <artifactId>smartanalytics-categorization</artifactId>
