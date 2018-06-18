@@ -1,7 +1,13 @@
 FROM adorsys/openjdk-jre-base:8-minideb
-MAINTAINER https://git.adorsys.de/adorsys/smartanalytics
+MAINTAINER https://github.com/adorsys/smartanalytics
+
 ENV JAVA_OPTS -Xmx1024m
+ENV SMARTANALYTICS_VERSION 1.1.6
+
 WORKDIR /opt/multibanking-service
-COPY smartanalytics-server/target/smartanalytics-server.jar /opt/smartanalytics/smartanalytics-server.jar
+
+RUN install_packages curl \
+    && curl http://central.maven.org/maven2/de/adorsys/smartanalytics/smartanalytics-server/${SMARTANALYTICS_VERSION}/smartanalytics-server-${SMARTANALYTICS_VERSION}.jar >> /opt/multibanking-service/smartanalytics-server.jar
+
 EXPOSE 8080
 CMD exec $JAVA_HOME/bin/java $JAVA_OPTS -jar /opt/smartanalytics/smartanalytics-server.jar
