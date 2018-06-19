@@ -22,7 +22,7 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-@JsonPropertyOrder({"ruleId", "creditorId", "similarityMatchType", "expression", "receiver", "stop", "incoming", "mainCategory", "subCategory", "specification", "email", "homepage", "hotline", "logo"})
+@JsonPropertyOrder({"ruleId", "creditorId", "similarityMatchType", "expression", "receiver", "stop", "incoming", "mainCategory", "subCategory", "specification", "custom", "email", "homepage", "hotline", "logo"})
 public class Rule {
 
     public enum SIMILARITY_MATCH_TYPE {
