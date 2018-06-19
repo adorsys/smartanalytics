@@ -10,6 +10,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import de.adorsys.smartanalytics.pers.api.RuleEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.BOMInputStream;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +21,7 @@ import java.util.List;
 public class ImportUtils {
 
     public static List<RuleEntity> importRules(InputStream inputStream) throws IOException {
-        String rulesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+        String rulesString = IOUtils.toString(new BOMInputStream(inputStream), StandardCharsets.UTF_8);
         try {
             return importCsvRules(RuleEntity.class, RuleMixIn.class, rulesString);
         } catch (Exception e) {
