@@ -16,11 +16,13 @@
 
 package de.adorsys.smartanalytics.api;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
 import java.util.Map;
 
 @Data
+@JsonPropertyOrder({"ruleId", "creditorId", "similarityMatchType", "expression", "receiver", "stop", "incoming", "mainCategory", "subCategory", "specification", "email", "homepage", "hotline", "logo"})
 public class Rule {
 
     public enum SIMILARITY_MATCH_TYPE {

@@ -92,10 +92,6 @@ public class RulesController {
 
     @RequestMapping(path = "/download", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public HttpEntity<InputStreamResource> downloadRules(@RequestParam(required = false, defaultValue = "CSV") RulesService.FileFormat format) throws IOException {
-        List<RuleEntity> rules = rulesProvider.getRules();
-        final YAMLFactory ymlFactory = new YAMLFactory();
-        ObjectMapper objectMapper = new ObjectMapper(ymlFactory);
-
         return ResponseEntity.ok()
                 .body(new InputStreamResource(new ByteArrayInputStream(rulesService.rulesAsByteArray(format))));
     }
