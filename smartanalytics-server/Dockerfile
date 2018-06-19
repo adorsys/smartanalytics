@@ -7,7 +7,7 @@ ENV SMARTANALYTICS_VERSION 1.1.6
 WORKDIR /opt/multibanking-service
 
 RUN install_packages curl \
-    && curl http://central.maven.org/maven2/de/adorsys/smartanalytics/smartanalytics-server/${SMARTANALYTICS_VERSION}/smartanalytics-server-${SMARTANALYTICS_VERSION}.jar >> /opt/multibanking-service/smartanalytics-server.jar
+    && curl http://central.maven.org/maven2/de/adorsys/smartanalytics/smartanalytics-server/${SMARTANALYTICS_VERSION}/smartanalytics-server-${SMARTANALYTICS_VERSION}.jar >> /opt/smartanalytics/smartanalytics-server.jar
 
 EXPOSE 8080
 CMD exec $JAVA_HOME/bin/java $JAVA_OPTS -jar /opt/smartanalytics/smartanalytics-server.jar
