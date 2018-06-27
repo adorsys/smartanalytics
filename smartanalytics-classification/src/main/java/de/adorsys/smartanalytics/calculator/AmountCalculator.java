@@ -15,12 +15,6 @@ import java.util.stream.Collectors;
  */
 public class AmountCalculator {
 
-    /**
-     * Berechnet den Betrag einer Umsatzgruppe
-     *
-     * @param bookings Liste mit Umsaetzen
-     * @return Mittelwert der Umsatzbeträge
-     */
     public static BigDecimal calcAmount(List<WrappedBooking> bookings) {
         if (bookings == null || bookings.isEmpty()) {
             return null;
@@ -30,19 +24,19 @@ public class AmountCalculator {
                 .sorted(Comparator.comparing(WrappedBooking::getAmount))
                 .collect(Collectors.toList());
 
-        final int umsatzAnzahl = sortedBookings.size();
+        final int countBookings = sortedBookings.size();
 
-        if (umsatzAnzahl <= 1) {
+        if (countBookings <= 1) {
             // Default, nimm den letzten Betrag. Deckt den Fall mit nur einem jährlichen Umsatz ab.
-            return sortedBookings.get(umsatzAnzahl - 1).getAmount();
+            return sortedBookings.get(countBookings - 1).getAmount();
         }
 
-        if (umsatzAnzahl == 2) {
-            return calcAmountTwoBookings(sortedBookings, umsatzAnzahl);
+        if (countBookings == 2) {
+            return calcAmountTwoBookings(sortedBookings, countBookings);
         }
 
         List<BigDecimal> lastThreeAmounts = sortedBookings.stream()
-                .map(umsatz -> umsatz.getAmount().setScale(2, BigDecimal.ROUND_HALF_UP))
+                .map(booking -> booking.getAmount().setScale(2, BigDecimal.ROUND_HALF_UP))
                 .limit(3)
                 .collect(Collectors.toList());
 

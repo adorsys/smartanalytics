@@ -36,7 +36,7 @@ public class RecurrentSepaGroupBuilder extends AbstractGroupBuilder {
             return null;
         }
 
-        log.trace("create category for {}, {}", booking.getCreditorId(), booking.getMandateReference());
+        log.trace("create group for {}, {}", booking.getCreditorId(), booking.getMandateReference());
         return new BookingGroup(booking.getCreditorId()+"|"+booking.getMandateReference(), booking.getRuleIds().toString(), getGroupName(), getGroupType());
     }
 

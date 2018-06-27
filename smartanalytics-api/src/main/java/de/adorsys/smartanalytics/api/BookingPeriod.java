@@ -9,10 +9,18 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class BookingPeriod {
+public class BookingPeriod implements Cloneable {
 
     private LocalDate start;
     private LocalDate end;
     private BigDecimal amount;
     private List<ExecutedBooking> bookings;
+
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

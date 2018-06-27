@@ -32,6 +32,7 @@ public class BookingGroup {
 
     private Group.Type groupType;
     private String name;
+    private boolean salaryWage;
 
     protected Cycle cycle;
     private BigDecimal amount;
@@ -60,7 +61,7 @@ public class BookingGroup {
      * Calculate the effectiveness of the category.
      *
      * @param referenceDate - a date on that the category is effective
-     * @param bookings - bookings to consider
+     * @param bookings      - bookings to consider
      * @return true if the time difference between given date and
      * youngest booking is in the valid range of the category cycle, otherwise false
      */
@@ -69,11 +70,16 @@ public class BookingGroup {
     }
 
     public boolean isIncome() {
-        return getGroupType() == Group.Type.RECURRENT_INCOME || getGroupType() == Group.Type.OTHER_INCOME;
+        return groupType == Group.Type.RECURRENT_INCOME || groupType == Group.Type.OTHER_INCOME;
+    }
+
+    public boolean isSalaryWageGroup() {
+        return groupType == Group.Type.RECURRENT_INCOME && subCategory != null &&
+                (subCategory.equals("EINKOMMEN") || subCategory.equals("RENTE"));
     }
 
     public boolean isRecurrent() {
-        return getGroupType() != Group.Type.CUSTOM && getGroupType() != Group.Type.OTHER_INCOME &&
-            getGroupType() != Group.Type.OTHER_EXPENSES;
+        return groupType != Group.Type.CUSTOM && groupType != Group.Type.OTHER_INCOME &&
+                groupType != Group.Type.OTHER_EXPENSES;
     }
 }
