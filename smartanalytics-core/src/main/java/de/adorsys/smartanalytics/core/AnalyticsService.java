@@ -11,6 +11,7 @@ import de.adorsys.smartanalytics.modifier.RulesModifier;
 import de.adorsys.smartanalytics.utils.RulesFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,13 +23,15 @@ import static de.adorsys.smartanalytics.utils.RulesFactory.createExpressionMatch
 import static de.adorsys.smartanalytics.utils.RulesFactory.createSimilarityMatcher;
 
 @Slf4j
-@Service(value="smartanalytics")
+@Service(value = "smartanalytics")
 public class AnalyticsService {
 
     @Autowired
     private RulesProvider rulesProvider;
     @Autowired
     private StatusService statusService;
+    @Value("${SMARTANALYTICS_SALARYWAGE_PERIODS:true}")
+    private boolean salaryWagePeriods;
 
     public AnalyticsResult analytics(AnalyticsRequest request) {
         List<WrappedBooking> categorizedBookings = categorize(request.getBookings(), request.getCustomRules());
@@ -53,7 +56,8 @@ public class AnalyticsService {
                 .map(RulesFactory::createExpressionMatcher)
                 .collect(Collectors.toList());
 
-        return new ClassificationService().group(categorizedBookings, builderList, groupWhiteListMatcher, contractBlackListMatcher);
+        return new ClassificationService().group(categorizedBookings, builderList,
+                groupWhiteListMatcher, contractBlackListMatcher, salaryWagePeriods);
     }
 
     private List<GroupBuilder> getGroupBuilders(GroupConfig groupConfig) {

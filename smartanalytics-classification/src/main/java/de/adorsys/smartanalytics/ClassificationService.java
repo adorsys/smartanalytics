@@ -17,7 +17,7 @@ import static de.adorsys.smartanalytics.calculator.PeriodCalculator.*;
 public class ClassificationService {
 
     public List<BookingGroup> group(List<WrappedBooking> wrappedBookings, List<GroupBuilder> groupBuilderList,
-                                    List<Matcher> recurrentWhiteList, List<Matcher> contractBlackList) {
+                                    List<Matcher> recurrentWhiteList, List<Matcher> contractBlackList, boolean salaryWagePeriods) {
 
         Map<BookingGroup, List<WrappedBooking>> groupsMap = createGroups(wrappedBookings, groupBuilderList);
         Map<BookingGroup, List<WrappedBooking>> validGroups = filterValidGroups(recurrentWhiteList, groupsMap);
@@ -30,11 +30,11 @@ public class ClassificationService {
                         evalRecurrentGroup(bookingGroupListEntry.getKey(), bookingGroupListEntry.getValue(), contractBlackList));
 
         Optional<Map.Entry<BookingGroup, List<WrappedBooking>>> salaryWageGroupOptional = findSalaryWageGroup(validGroups);
-        if (salaryWageGroupOptional.isPresent()) {
+        if (salaryWageGroupOptional.isPresent() && salaryWagePeriods) {
             salaryWageGroupOptional.get().getKey().setSalaryWage(true);
         }
 
-        List<BookingPeriod> bookingPeriods = createBookingPeriods(salaryWageGroupOptional, getFirstBookingDate(wrappedBookings));
+        List<BookingPeriod> bookingPeriods = createBookingPeriods(salaryWageGroupOptional, getFirstBookingDate(wrappedBookings), salaryWagePeriods);
 
         //amount and cycle group calculation for non recurrent groups
         validGroups.entrySet()

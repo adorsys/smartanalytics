@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 public class PeriodCalculator {
 
     public static List<BookingPeriod> createBookingPeriods(Optional<Map.Entry<BookingGroup, List<WrappedBooking>>> salaryWageGroupOptional,
-                                                           LocalDate firstBookingDate) {
+                                                           LocalDate firstBookingDate, boolean salaryWagePeriods) {
         List<LocalDate> bookingDates;
 
         //booking dates past and future based on salary/wage bookings
-        if (salaryWageGroupOptional.isPresent()) {
+        if (salaryWageGroupOptional.isPresent() && salaryWagePeriods) {
             bookingDates = calcBookingDates(salaryWageGroupOptional.get().getKey(), salaryWageGroupOptional.get().getValue());
         } else {
             //booking dates based on first available booking beginning at first of month
@@ -67,6 +67,7 @@ public class PeriodCalculator {
                 return groupPeriod;
 
             })
+            .filter(period -> period.getBookings().size() > 0)
             .collect(Collectors.toList());
     }
 
