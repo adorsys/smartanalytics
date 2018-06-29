@@ -109,6 +109,10 @@ public class NextBookingDateCalculator {
             return null;
         }
 
+        if (nexBookingDate.isBefore(LocalDate.now())) {
+            nexBookingDate = LocalDate.now();
+        }
+
         if (BankCalendar.isBankDay(nexBookingDate)) {
             return nexBookingDate;
         }

@@ -5,10 +5,7 @@ import de.adorsys.smartanalytics.api.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PeriodCalculator {
@@ -86,7 +83,10 @@ public class PeriodCalculator {
     }
 
     public static List<LocalDate> calcBookingDates(BookingGroup bookingGroup, List<WrappedBooking> bookings) {
-        LocalDate start = LocalDate.now();
+        LocalDate start = bookings.stream()
+            .max(Comparator.comparing(WrappedBooking::getExecutionDate))
+            .map(wrappedBooking -> wrappedBooking.getExecutionDate().plusDays(1))
+            .orElse(LocalDate.now());
         LocalDate end = YearMonth.from(start.plusMonths(11)).atEndOfMonth();
 
         List<LocalDate> bookingDates = new ArrayList<>();
