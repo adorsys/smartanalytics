@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import de.adorsys.smartanalytics.api.CategoriesContainer;
 import de.adorsys.smartanalytics.pers.api.RuleEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -20,6 +21,13 @@ import java.util.List;
 @Slf4j
 public class ImportUtils {
 
+    private static ObjectMapper yamlObjectMapper = new ObjectMapper(new YAMLFactory())
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    public static CategoriesContainer importCategories(InputStream inputStream) throws IOException {
+        return yamlObjectMapper.readValue(inputStream, CategoriesContainer.class);
+    }
+
     public static List<RuleEntity> importRules(InputStream inputStream) throws IOException {
         String rulesString = IOUtils.toString(new BOMInputStream(inputStream), StandardCharsets.UTF_8);
         try {
@@ -28,6 +36,11 @@ public class ImportUtils {
             log.debug("unable import rules as csv", e);
             return importYamlRules(rulesString);
         }
+    }
+
+    public static List<RuleEntity> importYamlRules(String rulesString) throws IOException {
+        return yamlObjectMapper.readValue(rulesString, new TypeReference<List<RuleEntity>>() {
+        });
     }
 
     private static <T> List<T> importCsvRules(Class<T> type, Class<?> mixin, String rulesString) throws Exception {
@@ -42,13 +55,5 @@ public class ImportUtils {
         return readValues.readAll();
     }
 
-    public static <T> List<T> importYamlRules(String rulesString) throws IOException {
-        final YAMLFactory ymlFactory = new YAMLFactory();
-        ObjectMapper objectMapper = new ObjectMapper(ymlFactory)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        return objectMapper.readValue(rulesString, new TypeReference<List<RuleEntity>>() {
-        });
-
-    }
 }
