@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Profile({"mongo", "fongo"})
+@Profile({"mongo-persistence", "fongo"})
 public interface BookingCategoriesRepositoryMongodb extends MongoRepository<CategoriesContainerEntity, String> {
 }

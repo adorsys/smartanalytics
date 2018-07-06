@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Optional;
 
-@Profile({"mongo", "fongo"})
+@Profile({"mongo-persistence", "fongo"})
 @Service
 public class BookingCategoriesRepositoryImpl implements BookingCategoryRepositoryIf {
 
