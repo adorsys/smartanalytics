@@ -41,6 +41,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/v2/api-docs/**").permitAll()
                 .antMatchers("/api/v1/rules/**").hasAuthority("rules_admin")
+                .antMatchers("/api/v1/categories/**").hasAuthority("rules_admin")
                 .antMatchers("/api/v1/analytics").authenticated()
                 .anyRequest().denyAll();
         http.addFilterBefore(new JWTAuthenticationFilter(tokenAuthenticationService), BasicAuthenticationFilter.class);
