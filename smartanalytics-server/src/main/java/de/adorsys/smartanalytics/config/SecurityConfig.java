@@ -5,6 +5,7 @@ import de.adorsys.sts.token.authentication.TokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -40,8 +41,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/v2/api-docs/**").permitAll()
-                .antMatchers("/api/v1/rules/**").hasAuthority("rules_admin")
-                .antMatchers("/api/v1/categories/**").hasAuthority("rules_admin")
+                .antMatchers("/api/v1/config/**").hasAuthority("rules_admin")
+                .antMatchers(HttpMethod.GET, "/api/v1/config/booking-categories").authenticated()
                 .antMatchers("/api/v1/analytics").authenticated()
                 .anyRequest().denyAll();
         http.addFilterBefore(new JWTAuthenticationFilter(tokenAuthenticationService), BasicAuthenticationFilter.class);

@@ -32,7 +32,7 @@ public class RulesService {
     @Autowired
     private RuleRepositoryIf rulesRepositoryCustom;
     @Autowired
-    private RulesProvider rulesProvider;
+    private AnalyticsConfigProvider rulesProvider;
     @Autowired
     private StatusService statusService;
 
@@ -81,6 +81,10 @@ public class RulesService {
         }
 
         return outputStream.toByteArray();
+    }
+
+    public List<RuleEntity> findAll() {
+        return rulesRepository.findAll();
     }
 
     public Page<RuleEntity> findAll(Pageable pageable) {

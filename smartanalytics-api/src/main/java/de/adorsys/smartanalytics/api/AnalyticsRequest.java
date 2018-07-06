@@ -31,7 +31,5 @@ public class AnalyticsRequest {
 
     private List<Booking> bookings;
     private List<Rule> customRules;
-    private GroupConfig groupConfig;
-    private List<String> contractBlackListMatcher;
 
 }

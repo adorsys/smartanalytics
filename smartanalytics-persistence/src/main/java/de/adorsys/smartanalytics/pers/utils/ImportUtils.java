@@ -8,6 +8,8 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import de.adorsys.smartanalytics.api.CategoriesContainer;
+import de.adorsys.smartanalytics.api.ContractBlacklist;
+import de.adorsys.smartanalytics.api.BookingGroupConfig;
 import de.adorsys.smartanalytics.pers.api.RuleEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -23,6 +25,14 @@ public class ImportUtils {
 
     private static ObjectMapper yamlObjectMapper = new ObjectMapper(new YAMLFactory())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    public static BookingGroupConfig importBookingGroups(InputStream inputStream) throws IOException {
+        return yamlObjectMapper.readValue(inputStream, BookingGroupConfig.class);
+    }
+
+    public static ContractBlacklist importContractBlackList(InputStream inputStream) throws IOException {
+        return yamlObjectMapper.readValue(inputStream, ContractBlacklist.class);
+    }
 
     public static CategoriesContainer importCategories(InputStream inputStream) throws IOException {
         return yamlObjectMapper.readValue(inputStream, CategoriesContainer.class);

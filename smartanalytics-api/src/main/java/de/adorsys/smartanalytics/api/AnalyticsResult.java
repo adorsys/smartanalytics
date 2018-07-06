@@ -26,7 +26,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AnalyticsResult {
 
-    private RulesStatus rulesStatus;
+    private ConfigStatus rulesStatus;
     private List<WrappedBooking> bookings = new ArrayList<>();
     private List<BookingGroup> bookingGroups;
 

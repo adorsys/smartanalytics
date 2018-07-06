@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.core;
 
-import de.adorsys.smartanalytics.pers.api.StatusEntity;
+import de.adorsys.smartanalytics.pers.api.ConfigStatusEntity;
 import de.adorsys.smartanalytics.pers.spi.RuleRepositoryIf;
 import de.adorsys.smartanalytics.pers.spi.StatusRepositoryIf;
 import org.apache.commons.lang3.StringUtils;
@@ -9,21 +9,18 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-import static de.adorsys.smartanalytics.pers.api.StatusEntity.STATUS_ID;
+import static de.adorsys.smartanalytics.pers.api.ConfigStatusEntity.STATUS_ID;
 
 @Service
 public class StatusService {
 
     @Autowired
     private StatusRepositoryIf statusRepo;
-    @Autowired
-    private RuleRepositoryIf ruleRepository;
 
-    public StatusEntity getStatus() {
+    public ConfigStatusEntity getStatus() {
         return statusRepo.findById(STATUS_ID).orElseGet(() -> {
-            StatusEntity statusEntity = new StatusEntity();
+            ConfigStatusEntity statusEntity = new ConfigStatusEntity();
             statusEntity.setId(STATUS_ID);
-            statusEntity.setCountRules(ruleRepository.count());
             statusRepo.save(statusEntity);
             return statusEntity;
         });
@@ -34,20 +31,57 @@ public class StatusService {
     }
 
     public void rulesChanged(String version) {
-        rulesChanged(version, ruleRepository.count());
-    }
-
-    private void rulesChanged(String version, long countRules) {
-        StatusEntity status = getStatus();
-        if (status.getVersion() == null && version == null) {
-            status.setVersion(LocalDateTime.now().toString());
-        } else if (status.getVersion() != null && version == null) {
-            status.setVersion(StringUtils.substringBeforeLast(status.getVersion(), "_")  + "_" + LocalDateTime.now().toString());
+        ConfigStatusEntity status = getStatus();
+        if (status.getRulesVersion() == null && version == null) {
+            status.setRulesVersion(LocalDateTime.now().toString());
+        } else if (status.getRulesVersion() != null && version == null) {
+            status.setRulesVersion(StringUtils.substringBeforeLast(status.getRulesVersion(), "_")  + "_" + LocalDateTime.now().toString());
         } else if (version != null) {
-            status.setVersion(version);
+            status.setRulesVersion(version);
         }
 
-        status.setCountRules(countRules);
+        status.setLastChangeDate(LocalDateTime.now());
+        statusRepo.save(status);
+    }
+
+    public void groupConfigChanged(String version) {
+        ConfigStatusEntity status = getStatus();
+        if (status.getGroupConfigVersion() == null && version == null) {
+            status.setGroupConfigVersion(LocalDateTime.now().toString());
+        } else if (status.getGroupConfigVersion() != null && version == null) {
+            status.setGroupConfigVersion(StringUtils.substringBeforeLast(status.getGroupConfigVersion(), "_")  + "_" + LocalDateTime.now().toString());
+        } else if (version != null) {
+            status.setGroupConfigVersion(version);
+        }
+
+        status.setLastChangeDate(LocalDateTime.now());
+        statusRepo.save(status);
+    }
+
+    public void categoriesConfigChanged(String version) {
+        ConfigStatusEntity status = getStatus();
+        if (status.getCategoriesVersion() == null && version == null) {
+            status.setCategoriesVersion(LocalDateTime.now().toString());
+        } else if (status.getCategoriesVersion() != null && version == null) {
+            status.setCategoriesVersion(StringUtils.substringBeforeLast(status.getCategoriesVersion(), "_")  + "_" + LocalDateTime.now().toString());
+        } else if (version != null) {
+            status.setCategoriesVersion(version);
+        }
+
+        status.setLastChangeDate(LocalDateTime.now());
+        statusRepo.save(status);
+    }
+
+    public void contractBlacklistChanged(String version) {
+        ConfigStatusEntity status = getStatus();
+        if (status.getContractBlackListVersion() == null && version == null) {
+            status.setContractBlackListVersion(LocalDateTime.now().toString());
+        } else if (status.getContractBlackListVersion() != null && version == null) {
+            status.setContractBlackListVersion(StringUtils.substringBeforeLast(status.getContractBlackListVersion(), "_")  + "_" + LocalDateTime.now().toString());
+        } else if (version != null) {
+            status.setContractBlackListVersion(version);
+        }
+
         status.setLastChangeDate(LocalDateTime.now());
         statusRepo.save(status);
     }

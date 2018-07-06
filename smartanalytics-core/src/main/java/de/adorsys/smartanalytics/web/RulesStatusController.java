@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.web;
 
-import de.adorsys.smartanalytics.api.RulesStatus;
+import de.adorsys.smartanalytics.api.ConfigStatus;
 import de.adorsys.smartanalytics.core.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
@@ -17,7 +17,7 @@ public class RulesStatusController {
     private StatusService statusService;
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Resource<RulesStatus> status() {
+    public Resource<ConfigStatus> status() {
         return new Resource(statusService.getStatus());
     }
 

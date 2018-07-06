@@ -8,6 +8,7 @@ import de.adorsys.smartanalytics.matcher.BookingMatcher;
 import de.adorsys.smartanalytics.modifier.Modifier;
 import de.adorsys.smartanalytics.modifier.PaypalReceiverModifier;
 import de.adorsys.smartanalytics.modifier.RulesModifier;
+import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
 import de.adorsys.smartanalytics.utils.RulesFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,9 @@ import static de.adorsys.smartanalytics.utils.RulesFactory.createSimilarityMatch
 public class AnalyticsService {
 
     @Autowired
-    private RulesProvider rulesProvider;
+    private AnalyticsConfigProvider analyticsConfigProvider;
+    @Autowired
+    private BookingGroupsService bookingGroupsService;
     @Autowired
     private StatusService statusService;
     @Value("${SMARTANALYTICS_SALARYWAGE_PERIODS:true}")
@@ -46,13 +49,13 @@ public class AnalyticsService {
     }
 
     private List<BookingGroup> groupBookings(AnalyticsRequest request, List<WrappedBooking> categorizedBookings) {
-        List<GroupBuilder> builderList = getGroupBuilders(request.getGroupConfig());
+        List<GroupBuilder> builderList = getGroupBuilders(analyticsConfigProvider.getBookingGroupConfig());
 
-        List<Matcher> groupWhiteListMatcher = request.getGroupConfig().getRecurrentWhiteListMatcher().stream()
+        List<Matcher> groupWhiteListMatcher = analyticsConfigProvider.getBookingGroupConfig().getRecurrentWhiteListMatcher().stream()
                 .map(RulesFactory::createExpressionMatcher)
                 .collect(Collectors.toList());
 
-        List<Matcher> contractBlackListMatcher = request.getContractBlackListMatcher().stream()
+        List<Matcher> contractBlackListMatcher = analyticsConfigProvider.getContractBlacklist().getExpressions().stream()
                 .map(RulesFactory::createExpressionMatcher)
                 .collect(Collectors.toList());
 
@@ -60,8 +63,8 @@ public class AnalyticsService {
                 groupWhiteListMatcher, contractBlackListMatcher, salaryWagePeriods);
     }
 
-    private List<GroupBuilder> getGroupBuilders(GroupConfig groupConfig) {
-        return groupConfig.getGroups().stream().map(group -> {
+    private List<GroupBuilder> getGroupBuilders(BookingGroupConfigEntity groupConfig) {
+        return groupConfig.getBookingGroups().stream().map(group -> {
             List<Matcher> matchers;
 
             switch (group.getType()) {
@@ -109,8 +112,8 @@ public class AnalyticsService {
             }
         });
 
-        incomingRules.addAll(rulesProvider.getIncomingRules());
-        expensesRules.addAll(rulesProvider.getExpensesRules());
+        incomingRules.addAll(analyticsConfigProvider.getIncomingRules());
+        expensesRules.addAll(analyticsConfigProvider.getExpensesRules());
 
         List<Modifier> modifier = new ArrayList<>();
         modifier.add(new RulesModifier(expensesRules, booking ->

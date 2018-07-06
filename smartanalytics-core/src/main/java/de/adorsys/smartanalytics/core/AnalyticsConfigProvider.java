@@ -1,8 +1,10 @@
 package de.adorsys.smartanalytics.core;
 
 import de.adorsys.smartanalytics.matcher.BookingMatcher;
+import de.adorsys.smartanalytics.pers.api.CategoriesContainerEntity;
+import de.adorsys.smartanalytics.pers.api.ContractBlacklistEntity;
+import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
 import de.adorsys.smartanalytics.pers.api.RuleEntity;
-import de.adorsys.smartanalytics.pers.spi.RuleRepositoryIf;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,18 +18,45 @@ import static de.adorsys.smartanalytics.utils.RulesFactory.createSimilarityMatch
 
 @Slf4j
 @Service
-public class RulesProvider {
+public class AnalyticsConfigProvider {
 
     @Autowired
-    private RuleRepositoryIf ruleRepository;
+    private RulesService rulesService;
+    @Autowired
+    private ContractBlacklistService contractBlacklistService;
+    @Autowired
+    private BookingGroupsService bookingGroupsService;
+    @Autowired
+    private CategoriesService categoriesService;
 
     private List<RuleEntity> rules;
     private List<BookingMatcher> incomingRules;
     private List<BookingMatcher> expensesRules;
+    private CategoriesContainerEntity categoriesContainer;
+    private BookingGroupConfigEntity bookingGroupConfig;
+    private ContractBlacklistEntity contractBlacklist;
 
     @PostConstruct
     public void postConstruct() {
-        initRules(ruleRepository.findAll());
+        initRules(rulesService.findAll());
+        initCategories();
+        initGroupConfig();
+        initContractBlacklist();
+    }
+
+    void initCategories() {
+        categoriesService.getCategoriesContainer()
+                .ifPresent(categoriesContainerEntity -> this.categoriesContainer = categoriesContainerEntity);
+    }
+
+    void initGroupConfig() {
+        bookingGroupsService.getBookingGroups()
+                .ifPresent(bookingGroupConfigEntity -> this.bookingGroupConfig = bookingGroupConfigEntity);
+    }
+
+    void initContractBlacklist() {
+        contractBlacklistService.getContractBlacklist()
+                .ifPresent(contractBlacklistEntity -> this.contractBlacklist = contractBlacklistEntity);
     }
 
     void initRules(List<RuleEntity> rules) {
@@ -65,4 +94,15 @@ public class RulesProvider {
         return rules;
     }
 
+    public CategoriesContainerEntity getCategoriesContainer() {
+        return categoriesContainer;
+    }
+
+    public BookingGroupConfigEntity getBookingGroupConfig() {
+        return bookingGroupConfig;
+    }
+
+    public ContractBlacklistEntity getContractBlacklist() {
+        return contractBlacklist;
+    }
 }

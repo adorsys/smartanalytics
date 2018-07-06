@@ -1,12 +1,12 @@
 package de.adorsys.smartanalytics.pers.spi;
 
-import de.adorsys.smartanalytics.pers.api.StatusEntity;
+import de.adorsys.smartanalytics.pers.api.ConfigStatusEntity;
 
 import java.util.Optional;
 
 public interface StatusRepositoryIf {
 
-    Optional<StatusEntity> findById(String statusId);
+    Optional<ConfigStatusEntity> findById(String statusId);
 
-    void save(StatusEntity statusEntity);
+    void save(ConfigStatusEntity statusEntity);
 }

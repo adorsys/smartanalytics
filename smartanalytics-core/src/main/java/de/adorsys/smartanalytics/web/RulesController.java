@@ -1,8 +1,6 @@
 package de.adorsys.smartanalytics.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import de.adorsys.smartanalytics.core.RulesProvider;
+import de.adorsys.smartanalytics.core.AnalyticsConfigProvider;
 import de.adorsys.smartanalytics.core.RulesService;
 import de.adorsys.smartanalytics.exception.InvalidRulesException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
@@ -37,12 +35,12 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
  */
 @RestController
 @SuppressWarnings("unused")
-@RequestMapping(path = "api/v1/rules")
+@RequestMapping(path = "api/v1/config/booking-rules")
 @Slf4j
 public class RulesController {
 
     @Autowired
-    private RulesProvider rulesProvider;
+    private AnalyticsConfigProvider rulesProvider;
     @Autowired
     private RulesService rulesService;
 

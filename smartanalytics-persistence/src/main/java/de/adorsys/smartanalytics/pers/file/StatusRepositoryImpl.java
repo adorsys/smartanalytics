@@ -3,7 +3,7 @@ package de.adorsys.smartanalytics.pers.file;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import de.adorsys.smartanalytics.pers.api.StatusEntity;
+import de.adorsys.smartanalytics.pers.api.ConfigStatusEntity;
 import de.adorsys.smartanalytics.pers.spi.StatusRepositoryIf;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -27,7 +27,7 @@ public class StatusRepositoryImpl implements StatusRepositoryIf {
 
     private ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
 
-    private StatusEntity statusEntity;
+    private ConfigStatusEntity statusEntity;
 
     @PostConstruct
     public void postConstruct() throws IOException {
@@ -40,16 +40,16 @@ public class StatusRepositoryImpl implements StatusRepositoryIf {
         }
 
         String rulesString = IOUtils.toString(statusResource.getInputStream(), StandardCharsets.UTF_8);
-        this.statusEntity = objectMapper.readValue(rulesString, StatusEntity.class);
+        this.statusEntity = objectMapper.readValue(rulesString, ConfigStatusEntity.class);
     }
 
     @Override
-    public Optional<StatusEntity> findById(String statusId) {
+    public Optional<ConfigStatusEntity> findById(String statusId) {
         return Optional.ofNullable(statusEntity);
     }
 
     @Override
-    public void save(StatusEntity statusEntity) {
+    public void save(ConfigStatusEntity statusEntity) {
         this.statusEntity = statusEntity;
         dumpToFile();
     }
