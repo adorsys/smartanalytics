@@ -2,7 +2,7 @@ package de.adorsys.smartanalytics.web;
 
 import de.adorsys.smartanalytics.api.ContractBlacklist;
 import de.adorsys.smartanalytics.core.ContractBlacklistService;
-import de.adorsys.smartanalytics.exception.InvalidCategoriesException;
+import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
 import de.adorsys.smartanalytics.pers.api.ContractBlacklistEntity;
 import de.adorsys.smartanalytics.pers.utils.ImportUtils;
@@ -38,18 +38,18 @@ public class ContractBlacklistController {
     }
 
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
-    public HttpEntity<?> uploadContractBlackList(@RequestParam MultipartFile bookingGroupsFile) {
-        if (!bookingGroupsFile.isEmpty()) {
+    public HttpEntity<?> uploadContractBlackList(@RequestParam MultipartFile contractBlacklistFile) {
+        if (!contractBlacklistFile.isEmpty()) {
             try {
-                contractBlacklistService.saveContractBlacklist(ImportUtils.importContractBlackList(bookingGroupsFile.getInputStream()));
+                contractBlacklistService.saveContractBlacklist(ImportUtils.importContractBlackList(contractBlacklistFile.getInputStream()));
 
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } catch (Exception e) {
                 log.error("unable import groups", e);
-                throw new InvalidCategoriesException(bookingGroupsFile.getOriginalFilename());
+                throw new FileUploadException(contractBlacklistFile.getOriginalFilename());
             }
         } else {
-            throw new InvalidCategoriesException("File is empty");
+            throw new FileUploadException("File is empty");
         }
     }
 }

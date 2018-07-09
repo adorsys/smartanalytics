@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(
         value = HttpStatus.BAD_REQUEST,
-        reason = "INVALID_CATEGORIES"
+        reason = "INVALID_FILE"
 )
-public class InvalidCategoriesException extends ParametrizedMessageException {
+public class FileUploadException extends ParametrizedMessageException {
 
-    public InvalidCategoriesException(String message) {
-        super("unable import categories");
+    public FileUploadException(String message) {
+        super("unable import file");
         this.addParam("message", message);
     }
 

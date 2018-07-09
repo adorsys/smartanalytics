@@ -2,7 +2,7 @@ package de.adorsys.smartanalytics.web;
 
 import de.adorsys.smartanalytics.api.BookingGroupConfig;
 import de.adorsys.smartanalytics.core.BookingGroupsService;
-import de.adorsys.smartanalytics.exception.InvalidCategoriesException;
+import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
 import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
 import de.adorsys.smartanalytics.pers.utils.ImportUtils;
@@ -46,10 +46,10 @@ public class BookingGroupsController {
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } catch (Exception e) {
                 log.error("unable import groups", e);
-                throw new InvalidCategoriesException(bookingGroupsFile.getOriginalFilename());
+                throw new FileUploadException(bookingGroupsFile.getOriginalFilename());
             }
         } else {
-            throw new InvalidCategoriesException("File is empty");
+            throw new FileUploadException("File is empty");
         }
     }
 }

@@ -2,7 +2,7 @@ package de.adorsys.smartanalytics.web;
 
 import de.adorsys.smartanalytics.api.CategoriesContainer;
 import de.adorsys.smartanalytics.core.CategoriesService;
-import de.adorsys.smartanalytics.exception.InvalidCategoriesException;
+import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
 import de.adorsys.smartanalytics.pers.api.CategoriesContainerEntity;
 import de.adorsys.smartanalytics.pers.utils.ImportUtils;
@@ -46,10 +46,10 @@ public class BookingCategoriesController {
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } catch (Exception e) {
                 log.error("unable import categories", e);
-                throw new InvalidCategoriesException(categoriesFile.getOriginalFilename());
+                throw new FileUploadException(categoriesFile.getOriginalFilename());
             }
         } else {
-            throw new InvalidCategoriesException("File is empty");
+            throw new FileUploadException("File is empty");
         }
     }
 }
