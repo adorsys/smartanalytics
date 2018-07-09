@@ -1,9 +1,9 @@
 package de.adorsys.smartanalytics.core;
 
 import de.adorsys.smartanalytics.matcher.BookingMatcher;
+import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
 import de.adorsys.smartanalytics.pers.api.CategoriesContainerEntity;
 import de.adorsys.smartanalytics.pers.api.ContractBlacklistEntity;
-import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
 import de.adorsys.smartanalytics.pers.api.RuleEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static de.adorsys.smartanalytics.utils.RulesFactory.createExpressionMatcher;
 import static de.adorsys.smartanalytics.utils.RulesFactory.createSimilarityMatcher;
@@ -60,10 +62,14 @@ public class AnalyticsConfigProvider {
     }
 
     void initRules(List<RuleEntity> rules) {
+        this.rules = rules.stream()
+                .sorted(Comparator.comparing(o -> new Integer(o.getOrder())))
+                .collect(Collectors.toList());
+
         incomingRules = new ArrayList<>();
         expensesRules = new ArrayList<>();
 
-        rules.forEach(rule -> {
+        this.rules.forEach(rule -> {
             try {
                 BookingMatcher matcher = rule.getSimilarityMatchType() == null ? createExpressionMatcher(rule) : createSimilarityMatcher(rule);
                 if (rule.isIncoming()) {
@@ -75,8 +81,6 @@ public class AnalyticsConfigProvider {
                 log.warn("invalid rule [{}]", rule.getRuleId(), e);
             }
         });
-
-        this.rules = rules;
 
         log.info("initialized [{}] rules", rules.size());
 

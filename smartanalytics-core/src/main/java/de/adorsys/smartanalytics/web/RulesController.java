@@ -45,7 +45,7 @@ public class RulesController {
     private RulesService rulesService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public PagedResources<Resource<RuleEntity>> getRules(@PageableDefault(size = 20) Pageable pageable,
+    public PagedResources<Resource<RuleEntity>> getRules(@PageableDefault(size = 20, sort = "order") Pageable pageable,
                                                          PagedResourcesAssembler<RuleEntity> assembler) {
         Page<RuleEntity> pageableResult = rulesService.findAll(pageable);
         return assembler.toResource(pageableResult);

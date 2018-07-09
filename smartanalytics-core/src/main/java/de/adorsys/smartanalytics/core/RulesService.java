@@ -12,6 +12,7 @@ import de.adorsys.smartanalytics.pers.utils.ImportUtils;
 import de.adorsys.smartanalytics.pers.utils.RuleMixIn;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +33,7 @@ public class RulesService {
     @Autowired
     private RuleRepositoryIf rulesRepositoryCustom;
     @Autowired
-    private AnalyticsConfigProvider rulesProvider;
+    private AnalyticsConfigProvider analyticsConfigProvider;
     @Autowired
     private StatusService statusService;
 
@@ -47,12 +48,12 @@ public class RulesService {
 
         rulesRepository.deleteAll();
         rulesRepository.saveAll(rules);
-        rulesProvider.initRules(rules);
+        analyticsConfigProvider.initRules(rules);
         statusService.rulesChanged(FilenameUtils.getBaseName(fileName));
     }
 
     public byte[] rulesAsByteArray(FileFormat format) throws IOException {
-        List<RuleEntity> rules = rulesProvider.getRules();
+        List<RuleEntity> rules = analyticsConfigProvider.getRules();
 
         if (format == FileFormat.YAML) {
             final YAMLFactory ymlFactory = new YAMLFactory();
@@ -96,14 +97,34 @@ public class RulesService {
     }
 
     public void save(RuleEntity ruleEntity) {
-        rulesRepository.save(ruleEntity);
-        rulesProvider.initRules(rulesRepository.findAll());
+        List<RuleEntity> existingRules = analyticsConfigProvider.getRules();
+
+        //find rule with same order -> reorder needed
+        Optional<RuleEntity> indexChangedRule = existingRules.stream()
+                .filter(existingRule -> existingRule.getOrder() == ruleEntity.getOrder())
+                .filter(existingRule -> !StringUtils.equals(existingRule.getId(), ruleEntity.getId()))
+                .findFirst();
+
+        if (indexChangedRule.isPresent()) {
+            int newIndex = existingRules.indexOf(indexChangedRule.get());
+            existingRules.removeIf(existingRule -> StringUtils.equals(existingRule.getId(), ruleEntity.getId()));
+            existingRules.add(newIndex, ruleEntity);
+
+            for (int i = 0; i < existingRules.size(); i++) {
+                existingRules.get(i).setOrder(i+1);
+            }
+            rulesRepository.saveAll(existingRules);
+        } else {
+            rulesRepository.save(ruleEntity);
+        }
+
+        analyticsConfigProvider.initRules(rulesRepository.findAll());
         statusService.rulesChanged();
     }
 
     public void deleteById(String id) {
         rulesRepository.deleteById(id);
-        rulesProvider.initRules(rulesRepository.findAll());
+        analyticsConfigProvider.initRules(rulesRepository.findAll());
         statusService.rulesChanged();
     }
 
