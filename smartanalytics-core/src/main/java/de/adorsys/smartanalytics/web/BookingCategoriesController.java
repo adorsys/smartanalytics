@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.web;
 
-import de.adorsys.smartanalytics.api.CategoriesContainer;
+import de.adorsys.smartanalytics.api.CategoriesTree;
 import de.adorsys.smartanalytics.core.CategoriesService;
 import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
@@ -24,15 +24,15 @@ public class BookingCategoriesController {
     private CategoriesService categoriesService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Resource<CategoriesContainer> getCategories() {
+    public Resource<CategoriesTree> getCategories() {
         CategoriesContainerEntity categories = categoriesService.getCategoriesContainer()
-            .orElseThrow(() -> new ResourceNotFoundException(CategoriesContainer.class, "categories"));
+            .orElseThrow(() -> new ResourceNotFoundException(CategoriesTree.class, "categories"));
 
         return new Resource(categories);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public HttpEntity<Void> updateCategories(@RequestBody CategoriesContainer categoriesContainer) {
+    public HttpEntity<Void> updateCategories(@RequestBody CategoriesTree categoriesContainer) {
         categoriesService.saveCategoriesContainer(categoriesContainer);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

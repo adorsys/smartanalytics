@@ -75,11 +75,11 @@ public class BookingGroup {
 
     public boolean isSalaryWageGroup() {
         return groupType == Group.Type.RECURRENT_INCOME && subCategory != null &&
-                (subCategory.equals("EINKOMMEN") || subCategory.equals("RENTE"));
+            (subCategory.equals("EINKOMMEN") || subCategory.equals("RENTE"));
     }
 
     public boolean isRecurrent() {
         return groupType != Group.Type.CUSTOM && groupType != Group.Type.OTHER_INCOME &&
-                groupType != Group.Type.OTHER_EXPENSES;
+            groupType != Group.Type.OTHER_EXPENSES;
     }
 }

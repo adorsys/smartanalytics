@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class CategoriesContainer {
+public class CategoriesTree {
 
     private String version;
     private LocalDate changeDate;
-    private List<BookingCategory> bookingCategories;
+    private List<Category> categories;
 }

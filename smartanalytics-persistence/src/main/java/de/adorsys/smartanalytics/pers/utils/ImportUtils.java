@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import de.adorsys.smartanalytics.api.CategoriesContainer;
+import de.adorsys.smartanalytics.api.CategoriesTree;
 import de.adorsys.smartanalytics.api.ContractBlacklist;
 import de.adorsys.smartanalytics.api.BookingGroupConfig;
 import de.adorsys.smartanalytics.pers.api.RuleEntity;
@@ -34,8 +34,8 @@ public class ImportUtils {
         return yamlObjectMapper.readValue(inputStream, ContractBlacklist.class);
     }
 
-    public static CategoriesContainer importCategories(InputStream inputStream) throws IOException {
-        return yamlObjectMapper.readValue(inputStream, CategoriesContainer.class);
+    public static CategoriesTree importCategories(InputStream inputStream) throws IOException {
+        return yamlObjectMapper.readValue(inputStream, CategoriesTree.class);
     }
 
     public static List<RuleEntity> importRules(InputStream inputStream) throws IOException {

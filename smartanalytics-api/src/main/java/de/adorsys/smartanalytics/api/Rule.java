@@ -26,7 +26,7 @@ import java.util.Map;
 public class Rule {
 
     public enum SIMILARITY_MATCH_TYPE {
-        IBAN, REFERENCE_NAME, PURPOSE
+        IBAN, REFERENCE_NAME, PURPOSE, CUSTOM
     }
 
     private int order;

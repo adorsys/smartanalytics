@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.pers.mongo;
 
-import de.adorsys.smartanalytics.api.CategoriesContainer;
+import de.adorsys.smartanalytics.api.CategoriesTree;
 import de.adorsys.smartanalytics.pers.api.CategoriesContainerEntity;
 import de.adorsys.smartanalytics.pers.spi.BookingCategoryRepositoryIf;
 import org.springframework.beans.BeanUtils;
@@ -24,7 +24,7 @@ public class BookingCategoriesRepositoryImpl implements BookingCategoryRepositor
     }
 
     @Override
-    public void saveCategoriesContainer(CategoriesContainer categoriesContainer) {
+    public void saveCategoriesContainer(CategoriesTree categoriesContainer) {
         CategoriesContainerEntity containerEntity = new CategoriesContainerEntity();
         BeanUtils.copyProperties(categoriesContainer, containerEntity);
 

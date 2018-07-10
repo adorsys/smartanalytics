@@ -1,13 +1,13 @@
 package de.adorsys.smartanalytics.pers.api;
 
-import de.adorsys.smartanalytics.api.CategoriesContainer;
+import de.adorsys.smartanalytics.api.CategoriesTree;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document
-public class CategoriesContainerEntity extends CategoriesContainer {
+public class CategoriesContainerEntity extends CategoriesTree {
 
     public static final String CONTAINER_ID = "categories";
 

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +50,11 @@ public class AnalyticsService {
     }
 
     private List<BookingGroup> groupBookings(AnalyticsRequest request, List<WrappedBooking> categorizedBookings) {
+        if (analyticsConfigProvider.getBookingGroupConfig() == null) {
+            log.warn("group config not exists!");
+            return Collections.emptyList();
+        }
+
         List<GroupBuilder> builderList = getGroupBuilders(analyticsConfigProvider.getBookingGroupConfig());
 
         List<Matcher> groupWhiteListMatcher = analyticsConfigProvider.getBookingGroupConfig().getRecurrentWhiteListMatcher().stream()

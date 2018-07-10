@@ -8,11 +8,11 @@ import java.util.List;
  * Created by alexg on 04.12.17.
  */
 @Data
-public class BookingCategory {
+public class Category {
 
     String id;
     String name;
-    List<BookingCategory> subcategories;
-    List<BookingCategory> specifications;
+    List<Category> subcategories;
+    List<Category> specifications;
 
 }

@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.core;
 
-import de.adorsys.smartanalytics.api.CategoriesContainer;
+import de.adorsys.smartanalytics.api.CategoriesTree;
 import de.adorsys.smartanalytics.pers.api.CategoriesContainerEntity;
 import de.adorsys.smartanalytics.pers.spi.BookingCategoryRepositoryIf;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class CategoriesService {
         return bookingCategoryRepository.getCategoriesContainer();
     }
 
-    public void saveCategoriesContainer(CategoriesContainer categoriesContainer) {
+    public void saveCategoriesContainer(CategoriesTree categoriesContainer) {
         bookingCategoryRepository.saveCategoriesContainer(categoriesContainer);
         statusService.categoriesConfigChanged(categoriesContainer.getVersion());
     }
