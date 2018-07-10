@@ -1,6 +1,7 @@
 package de.adorsys.smartanalytics.web;
 
 import de.adorsys.smartanalytics.api.config.ContractBlacklist;
+import de.adorsys.smartanalytics.core.AnalyticsConfigProvider;
 import de.adorsys.smartanalytics.core.ContractBlacklistService;
 import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
@@ -21,12 +22,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class ContractBlacklistController {
 
     @Autowired
+    private AnalyticsConfigProvider analyticsConfigProvider;
+    @Autowired
     private ContractBlacklistService contractBlacklistService;
 
     @RequestMapping(method = RequestMethod.GET)
     public Resource<ContractBlacklist> getContractBlackList() {
-        ContractBlacklistEntity contractBlacklist = contractBlacklistService.getContractBlacklist()
-                .orElseThrow(() -> new ResourceNotFoundException(ContractBlacklist.class, "contract-blacklist"));
+        ContractBlacklistEntity contractBlacklist = analyticsConfigProvider.getContractBlacklist();
+        if (contractBlacklist == null) {
+            throw new ResourceNotFoundException(ContractBlacklist.class, "contract-blacklist");
+        }
 
         return new Resource(contractBlacklist);
     }

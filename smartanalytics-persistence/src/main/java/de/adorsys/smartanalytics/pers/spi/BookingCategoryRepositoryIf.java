@@ -1,14 +1,14 @@
 package de.adorsys.smartanalytics.pers.spi;
 
 import de.adorsys.smartanalytics.api.config.CategoriesTree;
-import de.adorsys.smartanalytics.pers.api.CategoriesContainerEntity;
+import de.adorsys.smartanalytics.pers.api.CategoriesTreeEntity;
 
 import java.util.Optional;
 
 public interface BookingCategoryRepositoryIf {
 
-    Optional<CategoriesContainerEntity> getCategoriesContainer();
+    Optional<CategoriesTreeEntity> getCategories();
 
-    void saveCategoriesContainer(CategoriesTree categoriesContainer);
+    void saveCategories(CategoriesTree categoriesContainer);
 
 }

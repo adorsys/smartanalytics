@@ -1,6 +1,7 @@
 package de.adorsys.smartanalytics.web;
 
 import de.adorsys.smartanalytics.api.config.GroupConfig;
+import de.adorsys.smartanalytics.core.AnalyticsConfigProvider;
 import de.adorsys.smartanalytics.core.BookingGroupsService;
 import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
@@ -18,17 +19,21 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @RestController
 @RequestMapping(path = "api/v1/config/booking-groups")
-public class BookingGroupsController {
+public class GroupConfigController {
 
+    @Autowired
+    private AnalyticsConfigProvider analyticsConfigProvider;
     @Autowired
     private BookingGroupsService bookingGroupsService;
 
     @RequestMapping(method = RequestMethod.GET)
     public Resource<GroupConfig> getBookingGroups() {
-        BookingGroupConfigEntity groups = bookingGroupsService.getBookingGroups()
-                .orElseThrow(() -> new ResourceNotFoundException(GroupConfig.class, "groups"));
+        BookingGroupConfigEntity groupConfig = analyticsConfigProvider.getBookingGroupConfig();
+        if (groupConfig == null) {
+            throw new ResourceNotFoundException(GroupConfig.class, "groups");
+        }
 
-        return new Resource(groups);
+        return new Resource(groupConfig);
     }
 
     @RequestMapping(method = RequestMethod.POST)

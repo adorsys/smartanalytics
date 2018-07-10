@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document
-public class CategoriesContainerEntity extends CategoriesTree {
+public class CategoriesTreeEntity extends CategoriesTree {
 
     public static final String CONTAINER_ID = "categories";
 

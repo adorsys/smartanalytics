@@ -12,6 +12,8 @@ import java.util.Optional;
 public class BookingGroupsService {
 
     @Autowired
+    private AnalyticsConfigProvider analyticsConfigProvider;
+    @Autowired
     private BookingGroupRepositoryIf bookingGroupRepository;
     @Autowired
     private StatusService statusService;
@@ -23,5 +25,6 @@ public class BookingGroupsService {
     public void saveBookingGroups(GroupConfig groupsContainer) {
         bookingGroupRepository.saveBookingGroups(groupsContainer);
         statusService.groupConfigChanged(groupsContainer.getVersion());
+        analyticsConfigProvider.initGroupConfig();
     }
 }

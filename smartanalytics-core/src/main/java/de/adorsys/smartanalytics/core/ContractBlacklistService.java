@@ -12,6 +12,8 @@ import java.util.Optional;
 public class ContractBlacklistService {
 
     @Autowired
+    private AnalyticsConfigProvider analyticsConfigProvider;
+    @Autowired
     private ContractBlacklistRepositoryIf contractBlacklistRepository;
     @Autowired
     private StatusService statusService;
@@ -23,5 +25,6 @@ public class ContractBlacklistService {
     public void saveContractBlacklist(ContractBlacklist contractBlacklist) {
         contractBlacklistRepository.saveContractBlacklist(contractBlacklist);
         statusService.contractBlacklistChanged(contractBlacklist.getVersion());
+        analyticsConfigProvider.initContractBlacklist();
     }
 }

@@ -1,7 +1,7 @@
 package de.adorsys.smartanalytics.pers.mongo;
 
 import de.adorsys.smartanalytics.api.config.CategoriesTree;
-import de.adorsys.smartanalytics.pers.api.CategoriesContainerEntity;
+import de.adorsys.smartanalytics.pers.api.CategoriesTreeEntity;
 import de.adorsys.smartanalytics.pers.spi.BookingCategoryRepositoryIf;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +19,20 @@ public class BookingCategoriesRepositoryImpl implements BookingCategoryRepositor
     private BookingCategoriesRepositoryMongodb categoriesRepository;
 
     @Override
-    public Optional<CategoriesContainerEntity> getCategoriesContainer() {
-        return categoriesRepository.findById(CategoriesContainerEntity.CONTAINER_ID);
+    public Optional<CategoriesTreeEntity> getCategories() {
+        return categoriesRepository.findById(CategoriesTreeEntity.CONTAINER_ID);
     }
 
     @Override
-    public void saveCategoriesContainer(CategoriesTree categoriesContainer) {
-        CategoriesContainerEntity containerEntity = new CategoriesContainerEntity();
-        BeanUtils.copyProperties(categoriesContainer, containerEntity);
+    public void saveCategories(CategoriesTree categoriesTree) {
+        CategoriesTreeEntity categoriesTreeEntity = new CategoriesTreeEntity();
+        BeanUtils.copyProperties(categoriesTree, categoriesTreeEntity);
 
-        containerEntity.setId(CategoriesContainerEntity.CONTAINER_ID);
-        containerEntity.setChangeDate(LocalDate.now());
+        categoriesTreeEntity.setId(CategoriesTreeEntity.CONTAINER_ID);
+        categoriesTreeEntity.setChangeDate(LocalDate.now());
 
-        categoriesRepository.deleteById(CategoriesContainerEntity.CONTAINER_ID);
-        categoriesRepository.save(containerEntity);
+        categoriesRepository.deleteById(CategoriesTreeEntity.CONTAINER_ID);
+        categoriesRepository.save(categoriesTreeEntity);
     }
 }
 

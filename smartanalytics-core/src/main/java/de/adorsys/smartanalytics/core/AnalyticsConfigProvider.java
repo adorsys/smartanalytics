@@ -2,7 +2,7 @@ package de.adorsys.smartanalytics.core;
 
 import de.adorsys.smartanalytics.matcher.BookingMatcher;
 import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
-import de.adorsys.smartanalytics.pers.api.CategoriesContainerEntity;
+import de.adorsys.smartanalytics.pers.api.CategoriesTreeEntity;
 import de.adorsys.smartanalytics.pers.api.ContractBlacklistEntity;
 import de.adorsys.smartanalytics.pers.api.RuleEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -37,7 +36,7 @@ public class AnalyticsConfigProvider {
     private List<RuleEntity> rules;
     private List<BookingMatcher> incomingRules;
     private List<BookingMatcher> expensesRules;
-    private CategoriesContainerEntity categoriesContainer;
+    private CategoriesTreeEntity categoriesContainer;
     private BookingGroupConfigEntity bookingGroupConfig;
     private ContractBlacklistEntity contractBlacklist;
 
@@ -61,7 +60,7 @@ public class AnalyticsConfigProvider {
     }
 
     void initCategories() {
-        categoriesService.getCategoriesContainer()
+        categoriesService.getCategories()
                 .ifPresent(categoriesContainerEntity -> this.categoriesContainer = categoriesContainerEntity);
     }
 
@@ -112,7 +111,7 @@ public class AnalyticsConfigProvider {
         return rules;
     }
 
-    public CategoriesContainerEntity getCategoriesContainer() {
+    public CategoriesTreeEntity getCategoriesContainer() {
         return categoriesContainer;
     }
 

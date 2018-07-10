@@ -58,7 +58,7 @@ public class StatusService {
         statusRepo.save(status);
     }
 
-    public void categoriesConfigChanged(String version) {
+    public void categoriesChanged(String version) {
         ConfigStatusEntity status = getStatus();
         if (status.getCategoriesVersion() == null && version == null) {
             status.setCategoriesVersion(LocalDateTime.now().toString());
