@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -24,6 +25,8 @@ public class AnalyticsConfigProvider {
 
     @Autowired
     private RulesService rulesService;
+    @Autowired
+    private StatusService statusService;
     @Autowired
     private ContractBlacklistService contractBlacklistService;
     @Autowired
@@ -44,6 +47,17 @@ public class AnalyticsConfigProvider {
         initCategories();
         initGroupConfig();
         initContractBlacklist();
+
+        log.info("\n----------------------------------------------------------\n\t" +
+                        "Smartanalytics config initialized\n\t" +
+                        "Rules version: \t\t\t\t{}\n\t" +
+                        "Categories version: \t\t{}\n\t" +
+                        "Groups version: \t\t\t{}\n\t" +
+                        "Contract blacklist version: \t{}\n----------------------------------------------------------",
+                statusService.getStatus().getRulesVersion(),
+                categoriesContainer != null ? categoriesContainer.getVersion(): "",
+                bookingGroupConfig != null ? bookingGroupConfig.getVersion(): "",
+                contractBlacklist != null ? contractBlacklist.getVersion(): "");
     }
 
     void initCategories() {
