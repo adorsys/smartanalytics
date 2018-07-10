@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.pers.mongo;
 
-import de.adorsys.smartanalytics.api.ContractBlacklist;
+import de.adorsys.smartanalytics.api.config.ContractBlacklist;
 import de.adorsys.smartanalytics.pers.api.ContractBlacklistEntity;
 import de.adorsys.smartanalytics.pers.spi.ContractBlacklistRepositoryIf;
 import org.springframework.beans.BeanUtils;

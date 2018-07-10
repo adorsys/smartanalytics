@@ -1,4 +1,4 @@
-package de.adorsys.smartanalytics.api;
+package de.adorsys.smartanalytics.api.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

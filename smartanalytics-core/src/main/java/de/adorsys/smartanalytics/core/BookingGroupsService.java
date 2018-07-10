@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.core;
 
-import de.adorsys.smartanalytics.api.BookingGroupConfig;
+import de.adorsys.smartanalytics.api.config.GroupConfig;
 import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
 import de.adorsys.smartanalytics.pers.spi.BookingGroupRepositoryIf;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class BookingGroupsService {
         return bookingGroupRepository.getBookingGroups();
     }
 
-    public void saveBookingGroups(BookingGroupConfig groupsContainer) {
+    public void saveBookingGroups(GroupConfig groupsContainer) {
         bookingGroupRepository.saveBookingGroups(groupsContainer);
         statusService.groupConfigChanged(groupsContainer.getVersion());
     }

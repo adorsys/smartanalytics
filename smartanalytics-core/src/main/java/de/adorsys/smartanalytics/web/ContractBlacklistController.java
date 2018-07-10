@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.web;
 
-import de.adorsys.smartanalytics.api.ContractBlacklist;
+import de.adorsys.smartanalytics.api.config.ContractBlacklist;
 import de.adorsys.smartanalytics.core.ContractBlacklistService;
 import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;

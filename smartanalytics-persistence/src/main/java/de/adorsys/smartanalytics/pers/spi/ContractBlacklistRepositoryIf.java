@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.pers.spi;
 
-import de.adorsys.smartanalytics.api.ContractBlacklist;
+import de.adorsys.smartanalytics.api.config.ContractBlacklist;
 import de.adorsys.smartanalytics.pers.api.ContractBlacklistEntity;
 
 import java.util.Optional;

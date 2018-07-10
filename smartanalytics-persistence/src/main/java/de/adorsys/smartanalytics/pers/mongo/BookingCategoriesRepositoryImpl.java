@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.pers.mongo;
 
-import de.adorsys.smartanalytics.api.CategoriesTree;
+import de.adorsys.smartanalytics.api.config.CategoriesTree;
 import de.adorsys.smartanalytics.pers.api.CategoriesContainerEntity;
 import de.adorsys.smartanalytics.pers.spi.BookingCategoryRepositoryIf;
 import org.springframework.beans.BeanUtils;

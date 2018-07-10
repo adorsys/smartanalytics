@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.pers.mongo;
 
-import de.adorsys.smartanalytics.api.BookingGroupConfig;
+import de.adorsys.smartanalytics.api.config.GroupConfig;
 import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
 import de.adorsys.smartanalytics.pers.spi.BookingGroupRepositoryIf;
 import org.springframework.beans.BeanUtils;
@@ -24,7 +24,7 @@ public class BookingGroupsRepositoryImpl implements BookingGroupRepositoryIf {
     }
 
     @Override
-    public void saveBookingGroups(BookingGroupConfig groupsContainer) {
+    public void saveBookingGroups(GroupConfig groupsContainer) {
         BookingGroupConfigEntity containerEntity = new BookingGroupConfigEntity();
         BeanUtils.copyProperties(groupsContainer, containerEntity);
 

@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.web;
 
-import de.adorsys.smartanalytics.api.ConfigStatus;
+import de.adorsys.smartanalytics.api.config.ConfigStatus;
 import de.adorsys.smartanalytics.core.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;

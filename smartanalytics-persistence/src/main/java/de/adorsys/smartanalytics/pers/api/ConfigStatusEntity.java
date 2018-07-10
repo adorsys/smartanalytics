@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.pers.api;
 
-import de.adorsys.smartanalytics.api.ConfigStatus;
+import de.adorsys.smartanalytics.api.config.ConfigStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;

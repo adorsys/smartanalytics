@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.web;
 
-import de.adorsys.smartanalytics.api.CategoriesTree;
+import de.adorsys.smartanalytics.api.config.CategoriesTree;
 import de.adorsys.smartanalytics.core.CategoriesService;
 import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;

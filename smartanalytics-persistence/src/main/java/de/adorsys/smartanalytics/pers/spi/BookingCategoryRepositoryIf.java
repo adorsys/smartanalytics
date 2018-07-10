@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.pers.spi;
 
-import de.adorsys.smartanalytics.api.CategoriesTree;
+import de.adorsys.smartanalytics.api.config.CategoriesTree;
 import de.adorsys.smartanalytics.pers.api.CategoriesContainerEntity;
 
 import java.util.Optional;

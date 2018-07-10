@@ -1,6 +1,7 @@
 package de.adorsys.smartanalytics;
 
 import de.adorsys.smartanalytics.api.*;
+import de.adorsys.smartanalytics.api.config.Group;
 import de.adorsys.smartanalytics.calculator.AmountCalculator;
 import de.adorsys.smartanalytics.calculator.CycleCalculator;
 import de.adorsys.smartanalytics.contract.ContractValidator;

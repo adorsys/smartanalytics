@@ -1,4 +1,4 @@
-package de.adorsys.smartanalytics.api;
+package de.adorsys.smartanalytics.api.config;
 
 import lombok.Data;
 
@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class CategoriesTree {
+public class ContractBlacklist {
 
     private String version;
     private LocalDate changeDate;
-    private List<Category> categories;
+    private List<String> expressions;
 }

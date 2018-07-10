@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.web;
 
-import de.adorsys.smartanalytics.api.BookingGroupConfig;
+import de.adorsys.smartanalytics.api.config.GroupConfig;
 import de.adorsys.smartanalytics.core.BookingGroupsService;
 import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
@@ -24,15 +24,15 @@ public class BookingGroupsController {
     private BookingGroupsService bookingGroupsService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Resource<BookingGroupConfig> getBookingGroups() {
+    public Resource<GroupConfig> getBookingGroups() {
         BookingGroupConfigEntity groups = bookingGroupsService.getBookingGroups()
-                .orElseThrow(() -> new ResourceNotFoundException(BookingGroupConfig.class, "groups"));
+                .orElseThrow(() -> new ResourceNotFoundException(GroupConfig.class, "groups"));
 
         return new Resource(groups);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public HttpEntity<Void> updateBookingGroups(@RequestBody BookingGroupConfig groupsContainer) {
+    public HttpEntity<Void> updateBookingGroups(@RequestBody GroupConfig groupsContainer) {
         bookingGroupsService.saveBookingGroups(groupsContainer);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

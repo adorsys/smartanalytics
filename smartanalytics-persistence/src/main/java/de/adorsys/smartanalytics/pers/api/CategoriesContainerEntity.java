@@ -1,6 +1,6 @@
 package de.adorsys.smartanalytics.pers.api;
 
-import de.adorsys.smartanalytics.api.CategoriesTree;
+import de.adorsys.smartanalytics.api.config.CategoriesTree;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

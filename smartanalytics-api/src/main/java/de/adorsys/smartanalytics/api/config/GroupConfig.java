@@ -1,4 +1,4 @@
-package de.adorsys.smartanalytics.api;
+package de.adorsys.smartanalytics.api.config;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class BookingGroupConfig {
+public class GroupConfig {
 
     private String version;
     private LocalDate changeDate;

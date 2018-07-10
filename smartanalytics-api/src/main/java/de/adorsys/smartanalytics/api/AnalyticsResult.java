@@ -16,6 +16,7 @@
 
 package de.adorsys.smartanalytics.api;
 
+import de.adorsys.smartanalytics.api.config.ConfigStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

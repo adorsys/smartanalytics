@@ -1,7 +1,7 @@
 package de.adorsys.smartanalytics.group;
 
 import de.adorsys.smartanalytics.api.BookingGroup;
-import de.adorsys.smartanalytics.api.Group;
+import de.adorsys.smartanalytics.api.config.Group;
 import de.adorsys.smartanalytics.api.Matcher;
 import de.adorsys.smartanalytics.api.WrappedBooking;
 import lombok.extern.slf4j.Slf4j;
