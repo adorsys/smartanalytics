@@ -35,7 +35,7 @@ public class SimilarityMatcher implements BookingMatcher {
             case PURPOSE:
                 Double result = JARO_WINKLER.apply(rule.getExpression(), normalize(wrappedBooking.getPurpose()));
                 if (result >= MIN_DISTANCE) {
-                    log.debug("similarity expression {} compared with {} resulted in score {}", rule.getExpression(), normalize(wrappedBooking.getPurpose())), result);
+                    log.debug("similarity expression {} compared with {} resulted in score {}", rule.getExpression(), normalize(wrappedBooking.getPurpose()), result);
                 }
                 return  result >= MIN_DISTANCE;
         }
