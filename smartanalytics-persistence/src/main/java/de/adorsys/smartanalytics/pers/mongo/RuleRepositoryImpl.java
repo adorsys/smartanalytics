@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -72,6 +73,6 @@ public class RuleRepositoryImpl implements RuleRepositoryIf {
                 .map(s -> Criteria.where("searchIndex").regex(s.toLowerCase(), "iu"))
                 .toArray(Criteria[]::new);
 
-        return mongoTemplate.find(Query.query(new Criteria().andOperator(criterias)), RuleEntity.class);
+        return mongoTemplate.find(Query.query(new Criteria().andOperator(criterias)).with(Sort.by("order")), RuleEntity.class);
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/status")
-public class RulesStatusController {
+public class ConfigStatusController {
 
     @Autowired
     private StatusService statusService;
