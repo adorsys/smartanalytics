@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.adorsys.smartanalytics</groupId>
         <artifactId>smartanalytics</artifactId>
-        <version>2.2.1</version>
+        <version>2.2.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>smartanalytics-server</artifactId>
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>de.adorsys.smartanalytics</groupId>
             <artifactId>smartanalytics-core</artifactId>
-            <version>2.2.1</version>
+            <version>2.2.2-SNAPSHOT</version>
         </dependency>
 
         <!-- sts -->
