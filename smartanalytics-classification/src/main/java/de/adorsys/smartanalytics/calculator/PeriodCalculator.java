@@ -93,9 +93,12 @@ public class PeriodCalculator {
 
         //booking dates past
         bookingDates.addAll(bookings.stream().map(WrappedBooking::getExecutionDate).collect(Collectors.toList()));
-        //booking dates forecast
-        bookingDates.addAll(BookingDateCalculator.calcBookingDates(bookingGroup, bookings, start, end, start));
 
+        if (!bookingGroup.isCancelled()) {
+            //booking dates forecast
+            bookingDates.addAll(BookingDateCalculator.calcBookingDates(bookingGroup, bookings, start, end, start));
+        }
+        
         return bookingDates;
     }
 

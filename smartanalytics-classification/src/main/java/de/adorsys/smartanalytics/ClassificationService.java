@@ -208,7 +208,8 @@ public class ClassificationService {
         bookingGroup.setCycle(CycleCalculator.fromDates(bookings.stream()
                 .map(WrappedBooking::getExecutionDate)
                 .collect(Collectors.toList())));
-        bookingGroup.setContract(ContractValidator.isContract(bookingGroup, bookings, contractBlackList) && bookingGroup.isEffective(LocalDate.now(), bookings));
+        bookingGroup.setContract(ContractValidator.isContract(bookingGroup, bookings, contractBlackList));
+        bookingGroup.setCancelled(!bookingGroup.isEffective(LocalDate.now(), bookings));
         bookingGroup.setMainCategory(bookings.get(0).getMainCategory());
         bookingGroup.setSubCategory(bookings.get(0).getSubCategory());
         bookingGroup.setSpecification(bookings.get(0).getSpecification());

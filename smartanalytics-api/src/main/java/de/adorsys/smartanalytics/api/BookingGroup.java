@@ -46,6 +46,8 @@ public class BookingGroup {
     private String hotline;
     private String homepage;
     private String logo;
+
+    private boolean cancelled;
     private boolean contract;
 
     private String mandatreference;
