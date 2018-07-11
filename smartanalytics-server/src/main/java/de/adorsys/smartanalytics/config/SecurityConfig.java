@@ -42,7 +42,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/v2/api-docs/**").permitAll()
                 .antMatchers("/api/v1/config/**").hasAuthority("rules_admin")
-                .antMatchers("/api/v1/images/**").hasAuthority("rules_admin")
+                .antMatchers(HttpMethod.POST, "/api/v1/images/upload").hasAuthority("rules_admin")
                 .antMatchers(HttpMethod.GET, "/api/v1/images/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/config/booking-categories").authenticated()
                 .antMatchers("/api/v1/analytics").authenticated()
