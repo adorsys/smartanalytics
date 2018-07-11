@@ -20,16 +20,16 @@ import javax.servlet.http.HttpServletRequest;
 @Api(value = "/", tags = {"endpoint metadata"}, description = "endpoint metadata")
 @RequestMapping(path = "/")
 public class ServerInfoController {
-		
-	@Autowired
-	private HttpServletRequest servletRequest;
-	
-	@GetMapping(produces={MediaType.APPLICATION_JSON_VALUE})
-	@ApiOperation(value = "endpoint metadata", notes = "Provides meta information on this API Endpoint")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok")})
-	public Resource<Object> info(){
-		String urlBase = StringUtils.substringBeforeLast(servletRequest.getRequestURL().toString(), servletRequest.getRequestURI());
-		return new Resource("REST API", new Link(urlBase + "/swagger-ui.html", "api-docs"));
-	}
+
+    @Autowired
+    private HttpServletRequest servletRequest;
+
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ApiOperation(value = "endpoint metadata", notes = "Provides meta information on this API Endpoint")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Ok")})
+    public Resource<Object> info() {
+        String urlBase = StringUtils.substringBeforeLast(servletRequest.getRequestURL().toString(), servletRequest.getRequestURI());
+        return new Resource("REST API", new Link(urlBase + "/swagger-ui.html", "api-docs"));
+    }
 
 }

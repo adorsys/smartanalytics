@@ -26,7 +26,7 @@ public class CategoriesController {
     @Autowired
     private CategoriesService categoriesService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public Resource<CategoriesTree> getCategories() {
         CategoriesTreeEntity categoriesTree = analyticsConfigProvider.getCategoriesContainer();
         if (categoriesTree == null) {
@@ -36,13 +36,13 @@ public class CategoriesController {
         return new Resource(categoriesTree);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PutMapping
     public HttpEntity<Void> updateCategories(@RequestBody CategoriesTree categoriesContainer) {
         categoriesService.saveCategories(categoriesContainer);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(path = "/upload", method = RequestMethod.POST)
+    @PostMapping(path = "/upload")
     public HttpEntity<?> uploadCategories(@RequestParam MultipartFile categoriesFile) {
         if (!categoriesFile.isEmpty()) {
             try {

@@ -16,26 +16,14 @@ public class Message implements Serializable {
 
     private static final long serialVersionUID = -1L;
 
-    /**
-     * Key/Code zur Identifizierung der Message.
-     */
     private String key;
 
     private Severity severity;
 
-    /**
-     * Feldbezug bei Validierungsfehlern. Optional.
-     */
     private String field;
 
-    /**
-     * Ausformulierte Beschreibung des Fehlers. Optional.
-     */
     private String renderedMessage;
 
-    /**
-     * Zurätzliche Informationen zu dem Fehler- Optional.
-     */
     private Map<String, String> paramsMap; // NOSONAR
 
     public enum Severity {

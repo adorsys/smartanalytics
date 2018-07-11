@@ -26,7 +26,7 @@ public class ContractBlacklistController {
     @Autowired
     private ContractBlacklistService contractBlacklistService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public Resource<ContractBlacklist> getContractBlackList() {
         ContractBlacklistEntity contractBlacklist = analyticsConfigProvider.getContractBlacklist();
         if (contractBlacklist == null) {
@@ -36,13 +36,13 @@ public class ContractBlacklistController {
         return new Resource(contractBlacklist);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PutMapping
     public HttpEntity<Void> updateContractBlackList(@RequestBody ContractBlacklist contractBlacklist) {
         contractBlacklistService.saveContractBlacklist(contractBlacklist);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(path = "/upload", method = RequestMethod.POST)
+    @PostMapping(path = "/upload")
     public HttpEntity<?> uploadContractBlackList(@RequestParam MultipartFile contractBlacklistFile) {
         if (!contractBlacklistFile.isEmpty()) {
             try {

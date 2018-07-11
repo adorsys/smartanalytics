@@ -26,7 +26,7 @@ public class GroupConfigController {
     @Autowired
     private BookingGroupsService bookingGroupsService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public Resource<GroupConfig> getBookingGroups() {
         BookingGroupConfigEntity groupConfig = analyticsConfigProvider.getBookingGroupConfig();
         if (groupConfig == null) {
@@ -36,13 +36,13 @@ public class GroupConfigController {
         return new Resource(groupConfig);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PutMapping
     public HttpEntity<Void> updateBookingGroups(@RequestBody GroupConfig groupsContainer) {
         bookingGroupsService.saveBookingGroups(groupsContainer);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(path = "/upload", method = RequestMethod.POST)
+    @PostMapping(path = "/upload")
     public HttpEntity<?> uploadBookingGroups(@RequestParam MultipartFile bookingGroupsFile) {
         if (!bookingGroupsFile.isEmpty()) {
             try {

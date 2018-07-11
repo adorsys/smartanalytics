@@ -11,7 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
 /**
  * Created by alexg on 08.02.17.
@@ -25,12 +25,14 @@ public class MongoConfig extends AbstractMongoConfiguration {
     @Autowired
     private Environment env;
 
-    @Autowired(required = false)
-    private MongoClient mongoClient;
-
     @Override
     protected String getDatabaseName() {
         return env.getProperty("mongo.databaseName");
+    }
+
+    @Bean
+    public GridFsTemplate gridFsTemplate() throws Exception {
+        return new GridFsTemplate(mongoDbFactory(), mappingMongoConverter());
     }
 
     @Bean
@@ -61,6 +63,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
                 1 < serverParts.length ? Integer.valueOf(serverParts[1]) : ServerAddress.defaultPort());
     }
 
+    @Override
     public MongoDbFactory mongoDbFactory() {
         return new SimpleMongoDbFactory(mongoClient(), env.getProperty("mongo.databaseName"));
     }

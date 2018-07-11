@@ -34,7 +34,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
  * Created by alexg on 07.02.17.
  */
 @RestController
-@SuppressWarnings("unused")
 @RequestMapping(path = "api/v1/config/booking-rules")
 @Slf4j
 public class RulesController {
@@ -44,14 +43,14 @@ public class RulesController {
     @Autowired
     private RulesService rulesService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public PagedResources<Resource<RuleEntity>> getRules(@PageableDefault(size = 20, sort = "order") Pageable pageable,
                                                          PagedResourcesAssembler<RuleEntity> assembler) {
         Page<RuleEntity> pageableResult = rulesService.findAll(pageable);
         return assembler.toResource(pageableResult);
     }
 
-    @RequestMapping(value = "/{ruleId}", method = RequestMethod.GET)
+    @GetMapping(value = "/{ruleId}")
     public Resource<RuleEntity> getRule(@PathVariable String ruleId) {
         RuleEntity ruleEntity = rulesService.getRuleByRuleId(ruleId)
                 .orElseThrow(() -> new ResourceNotFoundException(RuleEntity.class, ruleId));
@@ -59,7 +58,7 @@ public class RulesController {
         return mapToResource(ruleEntity);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public HttpEntity<Void> createRule(@RequestBody RuleEntity ruleEntity) {
         ruleEntity.updateSearchIndex();
         rulesService.save(ruleEntity);
@@ -67,7 +66,7 @@ public class RulesController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/{ruleId}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{ruleId}")
     public HttpEntity<Void> updateRule(@PathVariable String ruleId, @RequestBody RuleEntity ruleEntity) {
         ruleEntity.updateSearchIndex();
         rulesService.save(ruleEntity);
@@ -75,7 +74,7 @@ public class RulesController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/{ruleId}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{ruleId}")
     public HttpEntity<Void> deleteRule(@PathVariable String ruleId) {
         rulesService.deleteById(ruleId);
         log.info("Rule [{}] deleted.", ruleId);
@@ -83,18 +82,18 @@ public class RulesController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @GetMapping(value = "/search")
     public Resources<RuleEntity> searchRules(@RequestParam String query) {
         return new Resources<>(rulesService.search(query));
     }
 
-    @RequestMapping(path = "/download", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(path = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public HttpEntity<InputStreamResource> downloadRules(@RequestParam(required = false, defaultValue = "CSV") RulesService.FileFormat format) throws IOException {
         return ResponseEntity.ok()
                 .body(new InputStreamResource(new ByteArrayInputStream(rulesService.rulesAsByteArray(format))));
     }
 
-    @RequestMapping(path = "/upload", method = RequestMethod.POST)
+    @PostMapping(path = "/upload")
     public HttpEntity<?> uploadRules(@RequestParam MultipartFile rulesFile) {
         if (!rulesFile.isEmpty()) {
             try {
