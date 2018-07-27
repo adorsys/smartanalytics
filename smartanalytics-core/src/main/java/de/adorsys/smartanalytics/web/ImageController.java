@@ -2,6 +2,9 @@ package de.adorsys.smartanalytics.web;
 
 import de.adorsys.smartanalytics.core.ImageService;
 import de.adorsys.smartanalytics.exception.FileUploadException;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
+import io.swagger.annotations.AuthorizationScope;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
+@UserResource
 @RestController
 @RequestMapping(path = "api/v1/images")
 public class ImageController {
@@ -26,6 +30,12 @@ public class ImageController {
 
     }
 
+    @ApiOperation(
+            value = "Upload images file",
+            authorizations = {
+                    @Authorization(value = "multibanking_auth", scopes = {
+                            @AuthorizationScope(scope = "openid", description = "")
+                    })})
     @PostMapping(path = "/upload")
     public HttpEntity<?> uploadImages(@RequestParam MultipartFile imagesFile) {
         if (!imagesFile.isEmpty()) {

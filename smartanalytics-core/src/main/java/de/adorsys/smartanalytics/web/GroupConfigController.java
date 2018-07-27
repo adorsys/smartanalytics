@@ -7,6 +7,9 @@ import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
 import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
 import de.adorsys.smartanalytics.pers.utils.ImportUtils;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
+import io.swagger.annotations.AuthorizationScope;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
+@UserResource
 @RestController
 @RequestMapping(path = "api/v1/config/booking-groups")
 public class GroupConfigController {
@@ -26,6 +30,12 @@ public class GroupConfigController {
     @Autowired
     private BookingGroupsService bookingGroupsService;
 
+    @ApiOperation(
+            value = "Read booking groups configuration",
+            authorizations = {
+                    @Authorization(value = "multibanking_auth", scopes = {
+                            @AuthorizationScope(scope = "openid", description = "")
+                    })})
     @GetMapping
     public Resource<GroupConfig> getBookingGroups() {
         BookingGroupConfigEntity groupConfig = analyticsConfigProvider.getBookingGroupConfig();
@@ -36,12 +46,24 @@ public class GroupConfigController {
         return new Resource(groupConfig);
     }
 
+    @ApiOperation(
+            value = "Update booking groups configuration",
+            authorizations = {
+                    @Authorization(value = "multibanking_auth", scopes = {
+                            @AuthorizationScope(scope = "openid", description = "")
+                    })})
     @PutMapping
     public HttpEntity<Void> updateBookingGroups(@RequestBody GroupConfig groupsContainer) {
         bookingGroupsService.saveBookingGroups(groupsContainer);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @ApiOperation(
+            value = "Upload booking groups configuration file",
+            authorizations = {
+                    @Authorization(value = "multibanking_auth", scopes = {
+                            @AuthorizationScope(scope = "openid", description = "")
+                    })})
     @PostMapping(path = "/upload")
     public HttpEntity<?> uploadBookingGroups(@RequestParam MultipartFile bookingGroupsFile) {
         if (!bookingGroupsFile.isEmpty()) {
