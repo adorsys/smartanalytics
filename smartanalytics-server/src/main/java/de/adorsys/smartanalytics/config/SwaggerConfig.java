@@ -77,6 +77,7 @@ public class SwaggerConfig {
     public SecurityScheme oauth() {
         return new OAuthBuilder()
                 .name("multibanking_auth")
+                .scopes(Arrays.asList(new AuthorizationScope("openid", "openid connect")))
                 .grantTypes(grantTypes())
                 .build();
     }
