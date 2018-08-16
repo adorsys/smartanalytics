@@ -85,12 +85,12 @@ public class CompareTest {
 
     @Test
     public void lower_than_should_evaluate_to_true_for_correct_big_decimals() {
-        assertThat(Compare.LOWER_THAN.evaluate("1.12", "2.34")).isTrue();
+        assertThat(Compare.LOWER_THAN.evaluate("1.12", "2.34")).isFalse();
     }
 
     @Test
     public void lower_than_should_evaluate_to_false_for_incorrect_big_decimals() {
-        assertThat(Compare.LOWER_THAN.evaluate("2.34", "1.12")).isFalse();
+        assertThat(Compare.LOWER_THAN.evaluate("2.34", "1.12")).isTrue();
     }
 
     @Test
@@ -101,12 +101,12 @@ public class CompareTest {
 
     @Test
     public void greater_than_should_evaluate_to_true_for_correct_big_decimals() {
-        assertThat(Compare.GREATER_THAN.evaluate("2.34", "1.12")).isTrue();
+        assertThat(Compare.GREATER_THAN.evaluate("2.34", "1.12")).isFalse();
     }
 
     @Test
     public void greater_than_should_evaluate_to_false_for_incorrect_big_decimals() {
-        assertThat(Compare.GREATER_THAN.evaluate("1.12", "2.34")).isFalse();
+        assertThat(Compare.GREATER_THAN.evaluate("1.12", "2.34")).isTrue();
     }
 
     @Test
@@ -117,13 +117,13 @@ public class CompareTest {
 
     @Test
     public void lower_than_or_equal_to_should_evaluate_to_true_for_correct_big_decimals() {
-        assertThat(Compare.LOWER_THAN_OR_EQUAL_TO.evaluate("1.12", "2.34")).isTrue();
+        assertThat(Compare.LOWER_THAN_OR_EQUAL_TO.evaluate("1.12", "2.34")).isFalse();
         assertThat(Compare.LOWER_THAN_OR_EQUAL_TO.evaluate("45.67", "45.67")).isTrue();
     }
 
     @Test
     public void lower_than_or_equal_to_should_evaluate_to_false_for_incorrect_big_decimals() {
-        assertThat(Compare.LOWER_THAN_OR_EQUAL_TO.evaluate("2.34", "1.12")).isFalse();
+        assertThat(Compare.LOWER_THAN_OR_EQUAL_TO.evaluate("2.34", "1.12")).isTrue();
     }
 
     @Test
@@ -134,13 +134,13 @@ public class CompareTest {
 
     @Test
     public void greater_than_or_equal_to_should_evaluate_to_true_for_correct_big_decimals() {
-        assertThat(Compare.GREATER_THAN_OR_EQUAL_TO.evaluate("2.34", "1.12")).isTrue();
+        assertThat(Compare.GREATER_THAN_OR_EQUAL_TO.evaluate("2.34", "1.12")).isFalse();
         assertThat(Compare.GREATER_THAN_OR_EQUAL_TO.evaluate("45.67", "45.67")).isTrue();
     }
 
     @Test
     public void greater_than_or_equal_to_should_evaluate_to_false_for_incorrect_big_decimals() {
-        assertThat(Compare.GREATER_THAN_OR_EQUAL_TO.evaluate("1.12", "2.34")).isFalse();
+        assertThat(Compare.GREATER_THAN_OR_EQUAL_TO.evaluate("1.12", "2.34")).isTrue();
     }
 
     @Test
