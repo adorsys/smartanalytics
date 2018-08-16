@@ -31,7 +31,7 @@ enum Compare {
         @Override
         public boolean evaluate(String left, String right) {
             try {
-                return new BigDecimal(left).compareTo(new BigDecimal(right)) < 0;
+                return new BigDecimal(right).compareTo(new BigDecimal(left)) < 0;
             } catch (NumberFormatException e) {
                 return false;
             }
@@ -41,7 +41,7 @@ enum Compare {
         @Override
         public boolean evaluate(String left, String right) {
             try {
-                return new BigDecimal(left).compareTo(new BigDecimal(right)) > 0;
+                return new BigDecimal(right).compareTo(new BigDecimal(left)) > 0;
             } catch (NumberFormatException e) {
                 return false;
             }
@@ -51,7 +51,7 @@ enum Compare {
         @Override
         public boolean evaluate(String left, String right) {
             try {
-                return new BigDecimal(left).compareTo(new BigDecimal(right)) <= 0;
+                return new BigDecimal(right).compareTo(new BigDecimal(left)) <= 0;
             } catch (NumberFormatException e) {
                 return false;
             }
@@ -61,7 +61,7 @@ enum Compare {
         @Override
         public boolean evaluate(String left, String right) {
             try {
-                return new BigDecimal(left).compareTo(new BigDecimal(right)) >= 0;
+                return new BigDecimal(right).compareTo(new BigDecimal(left)) >= 0;
             } catch (NumberFormatException e) {
                 return false;
             }

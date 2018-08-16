@@ -27,8 +27,8 @@ import static springfox.documentation.builders.PathSelectors.ant;
 @Profile("swagger")
 public class SwaggerConfig {
 
-    @Value("${sts.authservers[0].issUrl:http://localhost:8080/auth/realms/multibanking}")
-    private String authUrl;
+    @Value("${swagger.login.url}")
+    private String loginUrl;
     @Value("${info.project.version}")
     private String version;
 
@@ -84,7 +84,7 @@ public class SwaggerConfig {
 
     private List<GrantType> grantTypes() {
         GrantType grantType = new ImplicitGrantBuilder()
-                .loginEndpoint(new LoginEndpoint(authUrl + "/protocol/openid-connect/auth"))
+                .loginEndpoint(new LoginEndpoint(loginUrl))
                 .build();
         return Arrays.asList(grantType);
     }

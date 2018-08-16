@@ -71,6 +71,8 @@ spring.profiles.include:
 
 mongo.properties.url: classpath:/mongo.properties
 
+swagger.login.url: http://localhost:8080/auth/realms/multibanking/protocol/openid-connect/auth
+
 sts:
   authservers:
   - name: keycloak
