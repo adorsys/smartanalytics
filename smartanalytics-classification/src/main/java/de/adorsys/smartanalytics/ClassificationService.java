@@ -23,7 +23,7 @@ public class ClassificationService {
         Map<BookingGroup, List<WrappedBooking>> groupsMap = createGroups(wrappedBookings, groupBuilderList);
         Map<BookingGroup, List<WrappedBooking>> validGroups = filterValidGroups(recurrentWhiteList, groupsMap);
 
-        //amount and cycle group calculation for recurrent groups, needed for salary/wage group detection
+        //amount and cycle calculation for recurrent groups, needed for salary/wage group detection
         validGroups.entrySet()
                 .stream()
                 .filter(bookingGroupListEntry -> bookingGroupListEntry.getKey().isRecurrent())
@@ -127,7 +127,8 @@ public class ClassificationService {
                 .filter(wrappedBooking -> wrappedBooking.getAmount().compareTo(BigDecimal.ZERO) < 0)
                 .collect(Collectors.toList());
 
-        if (!otherExpensesBookings.isEmpty() && evalNonRecurrentGroup(otherExpensesGroup, otherExpensesBookings, bookingPeriods)) {
+        if (!otherExpensesBookings.isEmpty()) {
+            evalNonRecurrentGroup(otherExpensesGroup, otherExpensesBookings, bookingPeriods);
             List<BookingPeriod> groupPeriods = createGroupPeriods(bookingPeriods, otherExpensesBookings);
 
             if (groupPeriods.size() > 0) {
@@ -147,7 +148,8 @@ public class ClassificationService {
                 .filter(wrappedBooking -> wrappedBooking.getAmount().compareTo(BigDecimal.ZERO) >= 0)
                 .collect(Collectors.toList());
 
-        if (!otherIncomeBookings.isEmpty() && evalNonRecurrentGroup(otherIncomeGroup, otherIncomeBookings, bookingPeriods)) {
+        if (!otherIncomeBookings.isEmpty()) {
+            evalNonRecurrentGroup(otherIncomeGroup, otherIncomeBookings, bookingPeriods);
             List<BookingPeriod> groupPeriods = createGroupPeriods(bookingPeriods, otherIncomeBookings);
 
             if (groupPeriods.size() > 0) {
@@ -160,7 +162,7 @@ public class ClassificationService {
     }
 
     private boolean evalNonRecurrentGroup(BookingGroup bookingGroup, List<WrappedBooking> bookings, List<BookingPeriod> bookingPeriods) {
-        if (bookings.size() == 0) {
+        if (bookings.isEmpty()) {
             return false;
         }
 
@@ -241,6 +243,10 @@ public class ClassificationService {
         }
 
         if (bookingGroup.getGroupType() == Group.Type.CUSTOM || isWhitelisted(bookings, whitelist)) {
+            return true;
+        }
+
+        if (bookingGroup.getGroupType() == Group.Type.STANDING_ORDER && !bookings.isEmpty()) {
             return true;
         }
 

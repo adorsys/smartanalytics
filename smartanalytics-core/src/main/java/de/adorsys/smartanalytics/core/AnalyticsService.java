@@ -39,7 +39,7 @@ public class AnalyticsService {
 
     public AnalyticsResult analytics(AnalyticsRequest request) {
         List<WrappedBooking> categorizedBookings = categorize(request.getBookings(), request.getCustomRules());
-        List<BookingGroup> groups = groupBookings(request, categorizedBookings);
+        List<BookingGroup> groups = groupBookings(categorizedBookings);
 
         AnalyticsResult analyticsResult = new AnalyticsResult();
         analyticsResult.setBookings(categorizedBookings);
@@ -49,7 +49,7 @@ public class AnalyticsService {
         return analyticsResult;
     }
 
-    private List<BookingGroup> groupBookings(AnalyticsRequest request, List<WrappedBooking> categorizedBookings) {
+    private List<BookingGroup> groupBookings(List<WrappedBooking> categorizedBookings) {
         if (analyticsConfigProvider.getBookingGroupConfig() == null) {
             log.warn("group config not exists!");
             return Collections.emptyList();
