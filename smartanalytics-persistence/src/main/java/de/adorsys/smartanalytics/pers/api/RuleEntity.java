@@ -2,6 +2,7 @@ package de.adorsys.smartanalytics.pers.api;
 
 import de.adorsys.smartanalytics.api.Rule;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = false, exclude = "searchIndex")
 @Document(collection = "smartanalytics-rules")
 public class RuleEntity extends Rule {
 
