@@ -31,8 +31,6 @@ public class AnalyticsService {
     @Autowired
     private AnalyticsConfigProvider analyticsConfigProvider;
     @Autowired
-    private BookingGroupsService bookingGroupsService;
-    @Autowired
     private StatusService statusService;
     @Value("${SMARTANALYTICS_SALARYWAGE_PERIODS:true}")
     private boolean salaryWagePeriods;

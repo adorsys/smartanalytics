@@ -40,8 +40,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class RulesController {
 
     @Autowired
-    private AnalyticsConfigProvider rulesProvider;
-    @Autowired
     private RulesService rulesService;
 
     @ApiOperation(
