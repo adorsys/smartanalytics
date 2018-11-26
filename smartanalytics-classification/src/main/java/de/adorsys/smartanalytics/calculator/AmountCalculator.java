@@ -21,7 +21,7 @@ public class AmountCalculator {
         }
 
         List<WrappedBooking> sortedBookings = bookings.stream()
-                .sorted(Comparator.comparing(WrappedBooking::getAmount))
+                .sorted(Comparator.comparing(WrappedBooking::getExecutionDate).reversed())
                 .collect(Collectors.toList());
 
         final int countBookings = sortedBookings.size();
