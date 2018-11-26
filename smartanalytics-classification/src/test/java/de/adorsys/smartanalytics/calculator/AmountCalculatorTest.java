@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,9 +43,11 @@ public class AmountCalculatorTest {
     public void bestimme_betrag_should_return_average_of_two_bookings(){
         Booking b1 = new Booking();
         b1.setAmount(new BigDecimal(100.00));
+        b1.setExecutionDate(LocalDate.now());
 
         Booking b2 = new Booking();
         b2.setAmount(new BigDecimal(200.00));
+        b2.setExecutionDate(LocalDate.now());
 
         List<WrappedBooking> umsaetze = Arrays.asList(new WrappedBooking(b1), new WrappedBooking(b2));
 
@@ -56,12 +59,15 @@ public class AmountCalculatorTest {
     public void bestimme_betrag_should_return_equal_amount_of_two_bookings(){
         Booking b1 = new Booking();
         b1.setAmount(new BigDecimal(100.00));
+        b1.setExecutionDate(LocalDate.now());
 
         Booking b2 = new Booking();
         b2.setAmount(new BigDecimal(100.00));
+        b2.setExecutionDate(LocalDate.now());
 
         Booking b3 = new Booking();
         b3.setAmount(new BigDecimal(200.00));
+        b3.setExecutionDate(LocalDate.now());
 
         List<WrappedBooking> umsaetze = Arrays.asList(new WrappedBooking(b1), new WrappedBooking(b2), new WrappedBooking(b3));
 
@@ -73,12 +79,15 @@ public class AmountCalculatorTest {
     public void bestimme_betrag_should_return_average_of_three_bookings() {
         Booking b1 = new Booking();
         b1.setAmount(new BigDecimal(100.00));
+        b1.setExecutionDate(LocalDate.now());
 
         Booking b2 = new Booking();
         b2.setAmount(new BigDecimal(200.00));
+        b2.setExecutionDate(LocalDate.now());
 
         Booking b3 = new Booking();
         b3.setAmount(new BigDecimal(300.00));
+        b3.setExecutionDate(LocalDate.now());
 
         List<WrappedBooking> umsaetze = Arrays.asList(new WrappedBooking(b1), new WrappedBooking(b2), new WrappedBooking(b3));
 
