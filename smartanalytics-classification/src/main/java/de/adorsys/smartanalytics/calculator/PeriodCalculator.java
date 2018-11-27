@@ -131,11 +131,11 @@ public class PeriodCalculator {
 
             bookingDates.stream()
                 .filter(executionDate -> dateInPeriod(executionDate, period))
-                .forEach(localDate -> {
+                .forEach(executionDate -> {
                     ExecutedBooking forecastBooking = new ExecutedBooking();
-                    forecastBooking.setBookingId(bookings.get(0).getBooking().getBookingId());
+                    forecastBooking.setBookingId(bookings.get(bookings.size()-1).getBooking().getBookingId());
                     forecastBooking.setExecuted(false);
-                    forecastBooking.setExecutionDate(localDate);
+                    forecastBooking.setExecutionDate(executionDate);
                     period.getBookings().add(forecastBooking);
                 });
 
