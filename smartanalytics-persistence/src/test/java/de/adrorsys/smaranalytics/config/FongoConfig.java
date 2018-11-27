@@ -1,31 +1,49 @@
 package de.adorsys.smartanalytics.config;
 
-import com.github.fakemongo.Fongo;
 import com.mongodb.MongoClient;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import com.mongodb.ServerAddress;
+import de.bwaldvogel.mongo.MongoServer;
+import de.bwaldvogel.mongo.backend.memory.MemoryBackend;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 /**
  * Created by alexg on 11.04.17.
  */
 @Configuration
-@EnableAutoConfiguration(exclude={MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @Profile({"fongo"})
 public class FongoConfig extends AbstractMongoConfiguration {
 
     @Override
     protected String getDatabaseName() {
-        return "multibanking";
+        return "smartanalytics";
     }
 
-    @Override
     @Bean
-    public MongoClient mongoClient() {
-        return new Fongo("multibanking").getMongo();
+    public MongoTemplate mongoTemplate(MongoClient mongoClient) {
+        return new MongoTemplate(mongoDbFactory(mongoClient));
     }
+
+    @Bean
+    public MongoDbFactory mongoDbFactory(MongoClient mongoClient) {
+        return new SimpleMongoDbFactory(mongoClient, "test");
+    }
+
+    @Bean(destroyMethod = "shutdown")
+    public MongoServer mongoServer() {
+        MongoServer mongoServer = new MongoServer(new MemoryBackend());
+        mongoServer.bind();
+        return mongoServer;
+    }
+
+    @Bean(destroyMethod = "close")
+    public MongoClient mongoClient() {
+        return new MongoClient(new ServerAddress(mongoServer().getLocalAddress()));
+    }
+
 }

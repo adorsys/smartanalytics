@@ -2,7 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>de.adorsys.smartanalytics</groupId>
         <artifactId>smartanalytics</artifactId>
@@ -11,6 +10,10 @@
 
     <artifactId>smartanalytics-persistence</artifactId>
     <packaging>jar</packaging>
+
+    <properties>
+        <mongo-java-server.version>1.9.8</mongo-java-server.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -53,9 +56,9 @@
             <artifactId>jackson-dataformat-csv</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.fakemongo</groupId>
-            <artifactId>fongo</artifactId>
-            <version>2.2.0-RC1</version>
+            <groupId>de.bwaldvogel</groupId>
+            <artifactId>mongo-java-server</artifactId>
+            <version>${mongo-java-server.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
