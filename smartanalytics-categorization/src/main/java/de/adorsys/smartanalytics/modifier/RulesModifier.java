@@ -46,7 +46,6 @@ public class RulesModifier implements Modifier {
                 if (matcher == null || !matcher.match(wrappedBooking)) {
                     continue;
                 }
-                log.debug("matcher [{}] matches booking [{}]", matcher.toString(), wrappedBooking);
 
                 matcher.extend(wrappedBooking);
                 if (matcher.isFinal()) {
