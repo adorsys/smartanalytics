@@ -3,20 +3,20 @@ package de.adorsys.smartanalytics.pers.mongo;
 import de.adorsys.smartanalytics.api.config.GroupConfig;
 import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
 import de.adorsys.smartanalytics.pers.spi.BookingGroupRepositoryIf;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Profile({"mongo-persistence", "fongo"})
 @Service
 public class BookingGroupsRepositoryImpl implements BookingGroupRepositoryIf {
 
-    @Autowired
-    private BookingGroupsRepositoryMongodb groupsRepository;
+    private final BookingGroupsRepositoryMongodb groupsRepository;
 
     @Override
     public Optional<BookingGroupConfigEntity> getBookingGroups() {

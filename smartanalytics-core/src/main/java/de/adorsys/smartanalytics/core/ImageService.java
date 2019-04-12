@@ -1,8 +1,8 @@
 package de.adorsys.smartanalytics.core;
 
 import de.adorsys.smartanalytics.pers.spi.ImageRepositoryIf;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -11,12 +11,12 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class ImageService {
 
-    @Autowired
-    private ImageRepositoryIf imageRepository;
+    private final ImageRepositoryIf imageRepository;
 
     public byte[] getImage(String imageName) {
         return imageRepository.getImage(imageName);

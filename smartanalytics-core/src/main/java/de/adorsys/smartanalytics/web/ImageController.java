@@ -5,8 +5,8 @@ import de.adorsys.smartanalytics.exception.FileUploadException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,14 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@RequiredArgsConstructor
 @Slf4j
 @UserResource
 @RestController
 @RequestMapping(path = "api/v1/images")
 public class ImageController {
 
-    @Autowired
-    private ImageService imageService;
+    private final ImageService imageService;
 
     @GetMapping(path = "/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
     public HttpEntity<byte[]> getImage(@PathVariable String imageName) {
@@ -37,7 +37,7 @@ public class ImageController {
                             @AuthorizationScope(scope = "openid", description = "")
                     })})
     @PostMapping(path = "/upload")
-    public HttpEntity<?> uploadImages(@RequestParam MultipartFile imagesFile) {
+    public HttpEntity<Void> uploadImages(@RequestParam MultipartFile imagesFile) {
         if (!imagesFile.isEmpty()) {
             try {
                 imageService.importImages(imagesFile.getInputStream());

@@ -10,8 +10,8 @@ import de.adorsys.smartanalytics.modifier.PaypalReceiverModifier;
 import de.adorsys.smartanalytics.modifier.RulesModifier;
 import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
 import de.adorsys.smartanalytics.utils.RulesFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,14 +24,14 @@ import java.util.stream.Collectors;
 import static de.adorsys.smartanalytics.utils.RulesFactory.createExpressionMatcher;
 import static de.adorsys.smartanalytics.utils.RulesFactory.createSimilarityMatcher;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service(value = "smartanalytics")
 public class AnalyticsService {
 
-    @Autowired
-    private AnalyticsConfigProvider analyticsConfigProvider;
-    @Autowired
-    private StatusService statusService;
+    private final AnalyticsConfigProvider analyticsConfigProvider;
+    private final StatusService statusService;
+
     @Value("${SMARTANALYTICS_SALARYWAGE_PERIODS:true}")
     private boolean salaryWagePeriods;
 
@@ -55,11 +55,13 @@ public class AnalyticsService {
 
         List<GroupBuilder> builderList = getGroupBuilders(analyticsConfigProvider.getBookingGroupConfig());
 
-        List<Matcher> groupWhiteListMatcher = analyticsConfigProvider.getBookingGroupConfig().getRecurrentWhiteListMatcher().stream()
+        List<Matcher> groupWhiteListMatcher =
+                analyticsConfigProvider.getBookingGroupConfig().getRecurrentWhiteListMatcher().stream()
                 .map(RulesFactory::createExpressionMatcher)
                 .collect(Collectors.toList());
 
-        List<Matcher> contractBlackListMatcher = analyticsConfigProvider.getContractBlacklist().getExpressions().stream()
+        List<Matcher> contractBlackListMatcher =
+                analyticsConfigProvider.getContractBlacklist().getExpressions().stream()
                 .map(RulesFactory::createExpressionMatcher)
                 .collect(Collectors.toList());
 
@@ -105,7 +107,8 @@ public class AnalyticsService {
         List<BookingMatcher> expensesRules = new ArrayList<>();
         customRules.forEach(customRule -> {
             try {
-                BookingMatcher matcher = customRule.getSimilarityMatchType() == null ? createExpressionMatcher(customRule) : createSimilarityMatcher(customRule);
+                BookingMatcher matcher = customRule.getSimilarityMatchType() == null ?
+                        createExpressionMatcher(customRule) : createSimilarityMatcher(customRule);
                 if (customRule.isIncoming()) {
                     incomingRules.add(matcher);
                 } else {

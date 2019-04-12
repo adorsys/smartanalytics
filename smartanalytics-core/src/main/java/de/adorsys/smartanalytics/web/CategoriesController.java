@@ -10,8 +10,8 @@ import de.adorsys.smartanalytics.pers.utils.ImportUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -19,16 +19,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@RequiredArgsConstructor
 @Slf4j
 @UserResource
 @RestController
 @RequestMapping(path = "api/v1/config/booking-categories")
 public class CategoriesController {
 
-    @Autowired
-    private AnalyticsConfigProvider analyticsConfigProvider;
-    @Autowired
-    private CategoriesService categoriesService;
+    private final AnalyticsConfigProvider analyticsConfigProvider;
+    private final CategoriesService categoriesService;
 
     @ApiOperation(
             value = "Read categories tree",
@@ -43,7 +42,7 @@ public class CategoriesController {
             throw new ResourceNotFoundException(CategoriesTree.class, "categories");
         }
 
-        return new Resource(categoriesTree);
+        return new Resource<>(categoriesTree);
     }
 
     @ApiOperation(
@@ -65,7 +64,7 @@ public class CategoriesController {
                             @AuthorizationScope(scope = "openid", description = "")
                     })})
     @PostMapping(path = "/upload")
-    public HttpEntity<?> uploadCategories(@RequestParam MultipartFile categoriesFile) {
+    public HttpEntity<Void> uploadCategories(@RequestParam MultipartFile categoriesFile) {
         if (!categoriesFile.isEmpty()) {
             try {
                 categoriesService.saveCategories(ImportUtils.importCategories(categoriesFile.getInputStream()));

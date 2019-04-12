@@ -1,12 +1,17 @@
 package de.adorsys.smartanalytics.core;
 
+import de.adorsys.smartanalytics.api.Rule;
 import de.adorsys.smartanalytics.matcher.BookingMatcher;
 import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
 import de.adorsys.smartanalytics.pers.api.CategoriesTreeEntity;
 import de.adorsys.smartanalytics.pers.api.ContractBlacklistEntity;
 import de.adorsys.smartanalytics.pers.api.RuleEntity;
+import de.adorsys.smartanalytics.pers.spi.BookingCategoryRepositoryIf;
+import de.adorsys.smartanalytics.pers.spi.BookingGroupRepositoryIf;
+import de.adorsys.smartanalytics.pers.spi.ContractBlacklistRepositoryIf;
+import de.adorsys.smartanalytics.pers.spi.RuleRepositoryIf;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -18,20 +23,16 @@ import java.util.stream.Collectors;
 import static de.adorsys.smartanalytics.utils.RulesFactory.createExpressionMatcher;
 import static de.adorsys.smartanalytics.utils.RulesFactory.createSimilarityMatcher;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class AnalyticsConfigProvider {
 
-    @Autowired
-    private RulesService rulesService;
-    @Autowired
-    private StatusService statusService;
-    @Autowired
-    private ContractBlacklistService contractBlacklistService;
-    @Autowired
-    private BookingGroupsService bookingGroupsService;
-    @Autowired
-    private CategoriesService categoriesService;
+    private final RuleRepositoryIf rulesRepository;
+    private final StatusService statusService;
+    private final ContractBlacklistRepositoryIf contractBlacklistRepository;
+    private final BookingGroupRepositoryIf bookingGroupRepository;
+    private final BookingCategoryRepositoryIf bookingCategoryRepository;
 
     private List<RuleEntity> rules;
     private List<BookingMatcher> incomingRules;
@@ -42,7 +43,7 @@ public class AnalyticsConfigProvider {
 
     @PostConstruct
     public void postConstruct() {
-        initRules(rulesService.findAll());
+        initRules(rulesRepository.findAll());
         initCategories();
         initGroupConfig();
         initContractBlacklist();
@@ -54,29 +55,29 @@ public class AnalyticsConfigProvider {
                         "Groups version: \t\t\t{}\n\t" +
                         "Contract blacklist version: \t{}\n----------------------------------------------------------",
                 statusService.getStatus().getRulesVersion(),
-                categoriesContainer != null ? categoriesContainer.getVersion(): "",
-                bookingGroupConfig != null ? bookingGroupConfig.getVersion(): "",
-                contractBlacklist != null ? contractBlacklist.getVersion(): "");
+                categoriesContainer != null ? categoriesContainer.getVersion() : "",
+                bookingGroupConfig != null ? bookingGroupConfig.getVersion() : "",
+                contractBlacklist != null ? contractBlacklist.getVersion() : "");
     }
 
     void initCategories() {
-        categoriesService.getCategories()
+        bookingCategoryRepository.getCategories()
                 .ifPresent(categoriesContainerEntity -> this.categoriesContainer = categoriesContainerEntity);
     }
 
     void initGroupConfig() {
-        bookingGroupsService.getBookingGroups()
+        bookingGroupRepository.getBookingGroups()
                 .ifPresent(bookingGroupConfigEntity -> this.bookingGroupConfig = bookingGroupConfigEntity);
     }
 
     void initContractBlacklist() {
-        contractBlacklistService.getContractBlacklist()
+        contractBlacklistRepository.getContractBlacklist()
                 .ifPresent(contractBlacklistEntity -> this.contractBlacklist = contractBlacklistEntity);
     }
 
     void initRules(List<RuleEntity> rules) {
         this.rules = rules.stream()
-                .sorted(Comparator.comparing(o -> new Integer(o.getOrder())))
+                .sorted(Comparator.comparing(Rule::getOrder))
                 .collect(Collectors.toList());
 
         incomingRules = new ArrayList<>();
@@ -84,7 +85,8 @@ public class AnalyticsConfigProvider {
 
         this.rules.forEach(rule -> {
             try {
-                BookingMatcher matcher = rule.getSimilarityMatchType() == null ? createExpressionMatcher(rule) : createSimilarityMatcher(rule);
+                BookingMatcher matcher = rule.getSimilarityMatchType() == null ? createExpressionMatcher(rule) :
+                        createSimilarityMatcher(rule);
                 if (rule.isIncoming()) {
                     incomingRules.add(matcher);
                 } else {
@@ -107,7 +109,7 @@ public class AnalyticsConfigProvider {
         return expensesRules;
     }
 
-    public List<RuleEntity> getRules() {
+    List<RuleEntity> getRules() {
         return rules;
     }
 

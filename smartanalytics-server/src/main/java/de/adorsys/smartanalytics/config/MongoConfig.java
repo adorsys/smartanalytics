@@ -1,8 +1,8 @@
 package de.adorsys.smartanalytics.config;
 
 import com.mongodb.*;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -13,21 +13,21 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
-/**
- * Created by alexg on 08.02.17.
- */
+import java.util.Optional;
+
+@RequiredArgsConstructor
 @Configuration
 @EnableSmartanalyticsMongoPersistence
 @PropertySource(value = "${mongo.properties.url}", ignoreResourceNotFound = true)
 @Profile({"mongo-persistence"})
 public class MongoConfig extends AbstractMongoConfiguration {
 
-    @Autowired
-    private Environment env;
+    private final Environment env;
 
     @Override
     protected String getDatabaseName() {
-        return env.getProperty("mongo.databaseName");
+        return Optional.ofNullable(env.getProperty("mongo.databaseName"))
+                .orElseThrow(() -> new IllegalStateException("missing env property mongo.databaseName"));
     }
 
     @Bean
@@ -49,23 +49,40 @@ public class MongoConfig extends AbstractMongoConfiguration {
         if (StringUtils.isEmpty(env.getProperty("mongo.userName"))) {
             return new MongoClient(serverAddress, mongoClientOptions);
         } else {
-            MongoCredential mongoCredential = MongoCredential
-                    .createCredential(env.getProperty("mongo.userName"), env.getProperty("mongo.databaseName"),
-                            env.getProperty("mongo.password").toCharArray());
+            MongoCredential mongoCredential = createMongoCredential();
 
             return new MongoClient(serverAddress, mongoCredential, mongoClientOptions);
         }
     }
 
+    private MongoCredential createMongoCredential() {
+        String userName = Optional.ofNullable(env.getProperty("mongo.userName"))
+                .orElseThrow(() -> new IllegalStateException("missing env property mongo.userName"));
+
+        String databaseName = Optional.ofNullable(env.getProperty("mongo.databaseName"))
+                .orElseThrow(() -> new IllegalStateException("missing env property mongo.databaseName"));
+
+        String password = Optional.ofNullable(env.getProperty("mongo.password"))
+                .orElseThrow(() -> new IllegalStateException("missing env property mongo.password"));
+
+        return MongoCredential.createCredential(userName, databaseName,
+                password.toCharArray());
+    }
+
     private ServerAddress getServerAddress() {
-        String[] serverParts = env.getProperty("mongo.server").replace("mongodb://", "").split(":");
-        return new ServerAddress(serverParts[0],
-                1 < serverParts.length ? Integer.valueOf(serverParts[1]) : ServerAddress.defaultPort());
+        return Optional.ofNullable(env.getProperty("mongo.server"))
+                .map(server -> server.replace("mongodb://", "").split(":"))
+                .map(serverParts -> new ServerAddress(serverParts[0],
+                        1 < serverParts.length ? Integer.valueOf(serverParts[1]) : ServerAddress.defaultPort()))
+                .orElseThrow(() -> new IllegalStateException("missing env property mongo.server"));
     }
 
     @Override
     public MongoDbFactory mongoDbFactory() {
-        return new SimpleMongoDbFactory(mongoClient(), env.getProperty("mongo.databaseName"));
+        return Optional.ofNullable(env.getProperty("mongo.databaseName"))
+                .map(databaseName -> new SimpleMongoDbFactory(mongoClient(), databaseName))
+                .orElseThrow(() -> new IllegalStateException("missing env property mongo.databaseName"));
+
     }
 }
 

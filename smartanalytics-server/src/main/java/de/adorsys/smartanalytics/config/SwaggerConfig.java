@@ -15,6 +15,7 @@ import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static springfox.documentation.builders.PathSelectors.ant;
@@ -27,65 +28,66 @@ import static springfox.documentation.builders.PathSelectors.ant;
 @Profile("swagger")
 public class SwaggerConfig {
 
-    @Value("${swagger.login.url}")
+    @Value("${idp.baseUrl}")
     private String loginUrl;
     @Value("${info.project.version}")
     private String version;
+    @Value("${swagger.client.id:multibanking-client}")
+    private String swaggerClientId;
+    @Value("${idp.realm:multibanking}")
+    private String realm;
 
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(new ApiInfoBuilder()
-                        .title("Smartanalytics REST Api")
-                        .contact(new Contact("Alexander Geist adorsys GmbH & Co. KG", null, "age@adorsys.de"))
-                        .version(version)
-                        .build())
+                .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(UserResource.class))
                 .paths(PathSelectors.any())
                 .build()
-                .securitySchemes(Arrays.asList(oauth()))
-                .securityContexts(Arrays.asList(securityContext()));
+                .securitySchemes(Collections.singletonList(securityScheme()))
+                .securityContexts(Collections.singletonList(securityContext()));
     }
 
-    @Bean
-    public SecurityContext securityContext() {
-        AuthorizationScope[] scopes = new AuthorizationScope[1];
-        scopes[0] = new AuthorizationScope("openid", "openid connect");
-
-        SecurityReference securityReference = SecurityReference.builder()
-                .reference("multibanking_auth")
-                .scopes(scopes)
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Smartanalytics REST Api")
+                .contact(new Contact("Alexander Geist adorsys GmbH & Co. KG", null, "age@adorsys.de"))
+                .version(version)
                 .build();
+    }
 
+    private SecurityContext securityContext() {
         return SecurityContext.builder()
-                .securityReferences(Arrays.asList(securityReference))
-                .forPaths(ant("*"))
+                .securityReferences(Collections.singletonList(new SecurityReference("multibanking_auth", scopes())))
+                .forPaths(PathSelectors.any())
                 .build();
     }
 
     @Bean
     public SecurityConfiguration security() {
         return SecurityConfigurationBuilder.builder()
-                .appName("Smartanalytics swagger client")
-                .realm("multibanking")
-                .clientId("multibanking-client")
+                .clientId(swaggerClientId)
                 .build();
     }
 
-    @Bean
-    public SecurityScheme oauth() {
+    private SecurityScheme securityScheme() {
+        String tokenEndpoint = String.format("%s/auth/realms/%s/protocol/openid-connect/token", loginUrl, realm);
+        String tokenRequestEndpoint = String.format("%s/auth/realms/%s/protocol/openid-connect/auth", loginUrl, realm);
+
+        GrantType grantType = new AuthorizationCodeGrantBuilder()
+                .tokenEndpoint(new TokenEndpoint(tokenEndpoint, "token"))
+                .tokenRequestEndpoint(new TokenRequestEndpoint(tokenRequestEndpoint, swaggerClientId, null))
+                .build();
+
         return new OAuthBuilder()
                 .name("multibanking_auth")
-                .scopes(Arrays.asList(new AuthorizationScope("openid", "openid connect")))
-                .grantTypes(grantTypes())
+                .grantTypes(Collections.singletonList(grantType))
+                .scopes(Arrays.asList(scopes()))
                 .build();
     }
 
-    private List<GrantType> grantTypes() {
-        GrantType grantType = new ImplicitGrantBuilder()
-                .loginEndpoint(new LoginEndpoint(loginUrl))
-                .build();
-        return Arrays.asList(grantType);
+    private AuthorizationScope[] scopes() {
+        return new AuthorizationScope[]{new AuthorizationScope("openid", "openid connect")};
     }
 }

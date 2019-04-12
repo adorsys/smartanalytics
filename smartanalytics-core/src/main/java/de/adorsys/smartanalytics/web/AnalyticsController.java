@@ -6,17 +6,20 @@ import de.adorsys.smartanalytics.core.AnalyticsService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Resource;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RequiredArgsConstructor
 @RestController
 @UserResource
 @RequestMapping(path = "api/v1/analytics")
 public class AnalyticsController {
 
-    @Autowired
-    private AnalyticsService analyticsService;
+    private final AnalyticsService analyticsService;
 
     @PutMapping
     @ApiOperation(
@@ -30,6 +33,5 @@ public class AnalyticsController {
 
         return new Resource<>(categoryResult);
     }
-
 
 }

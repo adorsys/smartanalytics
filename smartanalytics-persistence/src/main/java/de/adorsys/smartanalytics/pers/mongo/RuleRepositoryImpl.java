@@ -2,7 +2,7 @@ package de.adorsys.smartanalytics.pers.mongo;
 
 import de.adorsys.smartanalytics.pers.api.RuleEntity;
 import de.adorsys.smartanalytics.pers.spi.RuleRepositoryIf;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,15 +14,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@RequiredArgsConstructor
 @Profile({"mongo-persistence", "fongo"})
 @Service
 public class RuleRepositoryImpl implements RuleRepositoryIf {
 
-    @Autowired
-    private RuleRepositoryMongodb ruleRepositoryMongo;
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
+    private final RuleRepositoryMongodb ruleRepositoryMongo;
+    private final MongoTemplate mongoTemplate;
 
     @Override
     public long count() {
@@ -73,6 +71,7 @@ public class RuleRepositoryImpl implements RuleRepositoryIf {
                 .map(s -> Criteria.where("searchIndex").regex(s.toLowerCase(), "iu"))
                 .toArray(Criteria[]::new);
 
-        return mongoTemplate.find(Query.query(new Criteria().andOperator(criterias)).with(Sort.by("order")), RuleEntity.class);
+        return mongoTemplate.find(Query.query(new Criteria().andOperator(criterias)).with(Sort.by("order")),
+                RuleEntity.class);
     }
 }

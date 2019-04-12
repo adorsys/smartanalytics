@@ -10,8 +10,8 @@ import de.adorsys.smartanalytics.pers.utils.ImportUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -19,16 +19,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@RequiredArgsConstructor
 @Slf4j
 @UserResource
 @RestController
 @RequestMapping(path = "api/v1/config/booking-groups")
 public class GroupConfigController {
 
-    @Autowired
-    private AnalyticsConfigProvider analyticsConfigProvider;
-    @Autowired
-    private BookingGroupsService bookingGroupsService;
+    private final AnalyticsConfigProvider analyticsConfigProvider;
+    private final BookingGroupsService bookingGroupsService;
 
     @ApiOperation(
             value = "Read booking groups configuration",
@@ -43,7 +42,7 @@ public class GroupConfigController {
             throw new ResourceNotFoundException(GroupConfig.class, "groups");
         }
 
-        return new Resource(groupConfig);
+        return new Resource<>(groupConfig);
     }
 
     @ApiOperation(
@@ -65,7 +64,7 @@ public class GroupConfigController {
                             @AuthorizationScope(scope = "openid", description = "")
                     })})
     @PostMapping(path = "/upload")
-    public HttpEntity<?> uploadBookingGroups(@RequestParam MultipartFile bookingGroupsFile) {
+    public HttpEntity<Void> uploadBookingGroups(@RequestParam MultipartFile bookingGroupsFile) {
         if (!bookingGroupsFile.isEmpty()) {
             try {
                 bookingGroupsService.saveBookingGroups(ImportUtils.importBookingGroups(bookingGroupsFile.getInputStream()));

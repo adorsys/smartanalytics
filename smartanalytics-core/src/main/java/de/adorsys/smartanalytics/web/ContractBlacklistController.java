@@ -10,8 +10,8 @@ import de.adorsys.smartanalytics.pers.utils.ImportUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -19,16 +19,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@RequiredArgsConstructor
 @Slf4j
 @UserResource
 @RestController
 @RequestMapping(path = "api/v1/config/contract-blacklist")
 public class ContractBlacklistController {
 
-    @Autowired
-    private AnalyticsConfigProvider analyticsConfigProvider;
-    @Autowired
-    private ContractBlacklistService contractBlacklistService;
+    private final AnalyticsConfigProvider analyticsConfigProvider;
+    private final ContractBlacklistService contractBlacklistService;
 
     @ApiOperation(
             value = "Read contract blacklist configuration",
@@ -43,7 +42,7 @@ public class ContractBlacklistController {
             throw new ResourceNotFoundException(ContractBlacklist.class, "contract-blacklist");
         }
 
-        return new Resource(contractBlacklist);
+        return new Resource<>(contractBlacklist);
     }
 
     @ApiOperation(
@@ -65,7 +64,7 @@ public class ContractBlacklistController {
                             @AuthorizationScope(scope = "openid", description = "")
                     })})
     @PostMapping(path = "/upload")
-    public HttpEntity<?> uploadContractBlackList(@RequestParam MultipartFile contractBlacklistFile) {
+    public HttpEntity<Void> uploadContractBlackList(@RequestParam MultipartFile contractBlacklistFile) {
         if (!contractBlacklistFile.isEmpty()) {
             try {
                 contractBlacklistService.saveContractBlacklist(ImportUtils.importContractBlackList(contractBlacklistFile.getInputStream()));

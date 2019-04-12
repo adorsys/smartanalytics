@@ -1,26 +1,17 @@
 package de.adorsys.smartanalytics.core;
 
 import de.adorsys.smartanalytics.api.config.ContractBlacklist;
-import de.adorsys.smartanalytics.pers.api.ContractBlacklistEntity;
 import de.adorsys.smartanalytics.pers.spi.ContractBlacklistRepositoryIf;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
+@RequiredArgsConstructor
 @Service
 public class ContractBlacklistService {
 
-    @Autowired
-    private AnalyticsConfigProvider analyticsConfigProvider;
-    @Autowired
-    private ContractBlacklistRepositoryIf contractBlacklistRepository;
-    @Autowired
-    private StatusService statusService;
-
-    public Optional<ContractBlacklistEntity> getContractBlacklist() {
-        return contractBlacklistRepository.getContractBlacklist();
-    }
+    private final AnalyticsConfigProvider analyticsConfigProvider;
+    private final ContractBlacklistRepositoryIf contractBlacklistRepository;
+    private final StatusService statusService;
 
     public void saveContractBlacklist(ContractBlacklist contractBlacklist) {
         contractBlacklistRepository.saveContractBlacklist(contractBlacklist);

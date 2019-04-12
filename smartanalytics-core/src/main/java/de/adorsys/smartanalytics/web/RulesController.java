@@ -1,6 +1,5 @@
 package de.adorsys.smartanalytics.web;
 
-import de.adorsys.smartanalytics.core.AnalyticsConfigProvider;
 import de.adorsys.smartanalytics.core.RulesService;
 import de.adorsys.smartanalytics.exception.InvalidRulesException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
@@ -8,8 +7,8 @@ import de.adorsys.smartanalytics.pers.api.RuleEntity;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,20 +26,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+@RequiredArgsConstructor
 @RestController
 @UserResource
 @RequestMapping(path = "api/v1/config/booking-rules")
 @Slf4j
 public class RulesController {
 
-    @Autowired
-    private RulesService rulesService;
+    private final RulesService rulesService;
 
     @ApiOperation(
             value = "Read categorization rules",
@@ -141,7 +138,7 @@ public class RulesController {
                             @AuthorizationScope(scope = "openid", description = "")
                     })})
     @PostMapping(path = "/upload")
-    public HttpEntity<?> uploadRules(@RequestParam MultipartFile rulesFile) {
+    public HttpEntity<Void> uploadRules(@RequestParam MultipartFile rulesFile) {
         if (!rulesFile.isEmpty()) {
             try {
                 rulesService.newRules(rulesFile.getOriginalFilename(), rulesFile.getInputStream());

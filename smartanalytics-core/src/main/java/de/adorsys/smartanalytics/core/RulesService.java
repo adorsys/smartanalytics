@@ -10,10 +10,10 @@ import de.adorsys.smartanalytics.pers.api.RuleEntity;
 import de.adorsys.smartanalytics.pers.spi.RuleRepositoryIf;
 import de.adorsys.smartanalytics.pers.utils.ImportUtils;
 import de.adorsys.smartanalytics.pers.utils.RuleMixIn;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,22 +24,15 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class RulesService {
 
-    @Autowired
-    private RuleRepositoryIf rulesRepository;
-    @Autowired
-    private RuleRepositoryIf rulesRepositoryCustom;
-    @Autowired
-    private AnalyticsConfigProvider analyticsConfigProvider;
-    @Autowired
-    private StatusService statusService;
-
-    public enum FileFormat {
-        CSV, YAML
-    }
+    private final RuleRepositoryIf rulesRepository;
+    private final RuleRepositoryIf rulesRepositoryCustom;
+    private final AnalyticsConfigProvider analyticsConfigProvider;
+    private final StatusService statusService;
 
     public void newRules(String fileName, InputStream inputStream) throws IOException {
         List<RuleEntity> rules = ImportUtils.importRules(inputStream);
@@ -84,10 +77,6 @@ public class RulesService {
         return outputStream.toByteArray();
     }
 
-    public List<RuleEntity> findAll() {
-        return rulesRepository.findAll();
-    }
-
     public Page<RuleEntity> findAll(Pageable pageable) {
         return rulesRepository.findAll(pageable);
     }
@@ -111,7 +100,7 @@ public class RulesService {
             existingRules.add(newIndex, ruleEntity);
 
             for (int i = 0; i < existingRules.size(); i++) {
-                existingRules.get(i).setOrder(i+1);
+                existingRules.get(i).setOrder(i + 1);
             }
             rulesRepository.saveAll(existingRules);
         } else {
@@ -130,5 +119,9 @@ public class RulesService {
 
     public Iterable<RuleEntity> search(String query) {
         return rulesRepositoryCustom.search(query);
+    }
+
+    public enum FileFormat {
+        CSV, YAML
     }
 }
