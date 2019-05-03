@@ -34,14 +34,15 @@ public class ClassificationService {
         evalRecurrentGroups(contractBlackList, validGroups);
 
         //4  identify salary/wage group
-        Optional<Map.Entry<BookingGroup, List<WrappedBooking>>> salaryWageGroupOptional =
-                findSalaryWageGroup(validGroups);
-        if (salaryWageGroupOptional.isPresent() && salaryWagePeriods) {
-            salaryWageGroupOptional.get().getKey().setSalaryWage(true);
+        Map.Entry<BookingGroup, List<WrappedBooking>> salaryWageGroup = findSalaryWageGroup(validGroups)
+                .orElse(null);
+
+        if (salaryWageGroup != null && salaryWagePeriods) {
+            salaryWageGroup.getKey().setSalaryWage(true);
         }
 
         //5. create booking period objects
-        List<BookingPeriod> bookingPeriods = createBookingPeriods(salaryWageGroupOptional,
+        List<BookingPeriod> bookingPeriods = createBookingPeriods(salaryWageGroup,
                 getFirstBookingDate(wrappedBookings), salaryWagePeriods);
 
         //6. amount and cycle group calculation for non recurrent groups
@@ -88,22 +89,18 @@ public class ClassificationService {
                                                                  List<GroupBuilder> groupBuilderList) {
         Map<BookingGroup, List<WrappedBooking>> groupsMap = new HashMap<>();
 
-        wrappedBookings.forEach(wrappedBooking -> {
-            groupBuilderList.stream()
-                    .filter(groupBuilder -> groupBuilder.groupShouldBeCreated(wrappedBooking))
-                    .findFirst()
-                    .ifPresent(groupBuilder -> {
-                        BookingGroup bookingGroup = groupBuilder.createGroup(wrappedBooking);
-                        if (bookingGroup != null) {
-                            List<WrappedBooking> bookings = groupsMap.get(bookingGroup);
-                            if (bookings == null) {
-                                bookings = new ArrayList<>();
-                                groupsMap.put(bookingGroup, bookings);
+        wrappedBookings.forEach(wrappedBooking ->
+                groupBuilderList.stream()
+                        .filter(groupBuilder -> groupBuilder.groupShouldBeCreated(wrappedBooking))
+                        .findFirst()
+                        .ifPresent(groupBuilder -> {
+                            BookingGroup bookingGroup = groupBuilder.createGroup(wrappedBooking);
+                            if (bookingGroup != null) {
+                                List<WrappedBooking> bookings = groupsMap.computeIfAbsent(bookingGroup,
+                                        k -> new ArrayList<>());
+                                bookings.add(wrappedBooking);
                             }
-                            bookings.add(wrappedBooking);
-                        }
-                    });
-        });
+                        }));
 
         return groupsMap;
     }
@@ -159,7 +156,7 @@ public class ClassificationService {
             evalNonRecurrentGroup(otherExpensesGroup, otherExpensesBookings, bookingPeriods);
             List<BookingPeriod> groupPeriods = createGroupPeriods(bookingPeriods, otherExpensesBookings);
 
-            if (groupPeriods.size() > 0) {
+            if (!groupPeriods.isEmpty()) {
                 otherExpensesGroup.setBookingPeriods(groupPeriods);
             }
 
@@ -182,7 +179,7 @@ public class ClassificationService {
             evalNonRecurrentGroup(otherIncomeGroup, otherIncomeBookings, bookingPeriods);
             List<BookingPeriod> groupPeriods = createGroupPeriods(bookingPeriods, otherIncomeBookings);
 
-            if (groupPeriods.size() > 0) {
+            if (!groupPeriods.isEmpty()) {
                 otherIncomeGroup.setBookingPeriods(groupPeriods);
             }
 
@@ -191,24 +188,26 @@ public class ClassificationService {
         return null;
     }
 
-    private boolean evalNonRecurrentGroup(BookingGroup bookingGroup, List<WrappedBooking> bookings,
-                                          List<BookingPeriod> bookingPeriods) {
+    private void evalNonRecurrentGroup(BookingGroup bookingGroup, List<WrappedBooking> bookings,
+                                       List<BookingPeriod> bookingPeriods) {
         if (bookings.isEmpty()) {
-            return false;
+            return;
         }
 
-        int indexCurrentPeriod = bookingPeriods.indexOf(filterPeriod(bookingPeriods, LocalDate.now()));
+        int indexCurrentPeriod = filterPeriod(bookingPeriods, LocalDate.now())
+                .map(bookingPeriods::indexOf).orElse(-1);
+
         BookingPeriod lastPeriod = indexCurrentPeriod > 0 ? bookingPeriods.get(indexCurrentPeriod - 1) : null;
         BookingPeriod secondLastPeriod = indexCurrentPeriod > 1 ? bookingPeriods.get(indexCurrentPeriod - 2) : null;
 
         BigDecimal amountLastPeriod = bookings.stream()
                 .filter(booking -> dateInPeriod(booking.getExecutionDate(), lastPeriod))
-                .map(value -> value.getAmount())
+                .map(WrappedBooking::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal amountSecondLastPeriod = bookings.stream()
                 .filter(booking -> dateInPeriod(booking.getExecutionDate(), secondLastPeriod))
-                .map(value -> value.getAmount())
+                .map(WrappedBooking::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal amount;
@@ -221,22 +220,21 @@ public class ClassificationService {
         }
 
         if (amount.compareTo(BigDecimal.ZERO) == 0) {
-            return false;
+            return;
         }
 
         bookingGroup.setAmount(amount);
-        return true;
     }
 
-    private boolean evalRecurrentGroup(BookingGroup bookingGroup, List<WrappedBooking> bookings,
-                                       List<Matcher> contractBlackList) {
-        if (bookings.size() == 0) {
-            return false;
+    private void evalRecurrentGroup(BookingGroup bookingGroup, List<WrappedBooking> bookings,
+                                    List<Matcher> contractBlackList) {
+        if (bookings.isEmpty()) {
+            return;
         }
 
         BigDecimal amount = AmountCalculator.calcAmount(bookings);
-        if (amount.compareTo(BigDecimal.ZERO) == 0) {
-            return false;
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) == 0) {
+            return;
         }
 
         bookingGroup.setCycle(CycleCalculator.fromDates(bookings.stream()
@@ -258,7 +256,6 @@ public class ClassificationService {
             bookingGroup.setOtherAccount(bookings.get(0).getReferenceName());
         }
         bookingGroup.setAmount(amount);
-        return true;
     }
 
     private Optional<Map.Entry<BookingGroup, List<WrappedBooking>>> findSalaryWageGroup(Map<BookingGroup,
