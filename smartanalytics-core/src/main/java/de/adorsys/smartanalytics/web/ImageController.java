@@ -13,7 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import io.swagger.annotations.Api;
 
+@Api(tags = "Smartanalytics images")
 @RequiredArgsConstructor
 @Slf4j
 @UserResource

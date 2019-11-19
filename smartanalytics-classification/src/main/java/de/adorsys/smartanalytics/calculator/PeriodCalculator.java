@@ -157,7 +157,7 @@ public class PeriodCalculator {
                     .reduce(BigDecimal.ZERO, BigDecimal::add));
         }
 
-        return period.getBookings().size() > 0;
+        return !period.getBookings().isEmpty();
     }
 
     public static Optional<BookingPeriod> filterPeriod(List<BookingPeriod> periods, LocalDate referenceDate) {

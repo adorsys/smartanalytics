@@ -29,7 +29,7 @@ public class MapDeserializer extends StdDeserializer<Map<String, String>> {
         return mapper.readValue(p.getText(), typeRef);
     }
 
-    public MapDeserializer(Class<?> nominalType) {
+    private MapDeserializer(Class<?> nominalType) {
         super(nominalType);
     }
 
