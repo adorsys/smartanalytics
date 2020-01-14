@@ -28,25 +28,21 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().cors()
-                .and().authorizeRequests()
-                .antMatchers("/management/health").permitAll()
-                .antMatchers("/management/info").permitAll()
-                .antMatchers("/management/**").hasAuthority("admin")
-                .antMatchers("/").permitAll()
-                .antMatchers("/pop").permitAll()
-                .antMatchers("/status").permitAll()
-                .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/v2/api-docs/**").permitAll()
-                .antMatchers("/api/v1/config/**").hasAuthority("rules_admin")
-                .antMatchers(HttpMethod.POST, "/api/v1/images/upload").hasAuthority("rules_admin")
-                .antMatchers(HttpMethod.GET, "/api/v1/images/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/config/booking-categories").authenticated()
-                .antMatchers("/api/v1/analytics").authenticated()
-                .anyRequest().denyAll();
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().cors()
+            .and().authorizeRequests()
+            .antMatchers("/actuator/**").permitAll()
+            .antMatchers("/").permitAll()
+            .antMatchers("/pop").permitAll()
+            .antMatchers("/status").permitAll()
+            .antMatchers("/swagger-ui/**").permitAll()
+            .antMatchers("/v3/api-docs/**").permitAll()
+            .antMatchers("/api/v1/config/**").hasAuthority("rules_admin")
+            .antMatchers(HttpMethod.POST, "/api/v1/images/upload").hasAuthority("rules_admin")
+            .antMatchers(HttpMethod.GET, "/api/v1/images/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v1/config/booking-categories").authenticated()
+            .antMatchers("/api/v1/analytics").authenticated()
+            .anyRequest().denyAll();
         http.addFilterBefore(new JWTAuthenticationFilter(tokenAuthenticationService), BasicAuthenticationFilter.class);
     }
 

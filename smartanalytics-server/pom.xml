@@ -14,6 +14,7 @@
 
     <properties>
         <sts.version>0.25.1</sts.version>
+        <springdoc.version>1.2.26</springdoc.version>
     </properties>
 
     <dependencies>
@@ -33,6 +34,12 @@
             <groupId>de.adorsys.sts</groupId>
             <artifactId>sts-persistence-mongo</artifactId>
             <version>${sts.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-mongodb</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- security -->
@@ -41,19 +48,23 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- swagger -->
+        <!-- OpenAPI -->
+
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
+
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-security</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
+
         <dependency>
-            <groupId>io.swagger</groupId>
+            <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-annotations.version}</version>
         </dependency>
 
         <!-- commons foo -->

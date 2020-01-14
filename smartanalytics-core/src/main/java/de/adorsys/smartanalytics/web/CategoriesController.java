@@ -7,9 +7,9 @@ import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
 import de.adorsys.smartanalytics.pers.api.CategoriesTreeEntity;
 import de.adorsys.smartanalytics.pers.utils.ImportUtils;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
-import io.swagger.annotations.AuthorizationScope;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Resource;
@@ -18,12 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import io.swagger.annotations.Api;
 
-@Api(tags = "Smartanalytics categories")
+@Tag(name = "Categories")
 @RequiredArgsConstructor
 @Slf4j
-@UserResource
 @RestController
 @RequestMapping(path = "api/v1/config/booking-categories")
 public class CategoriesController {
@@ -31,12 +29,8 @@ public class CategoriesController {
     private final AnalyticsConfigProvider analyticsConfigProvider;
     private final CategoriesService categoriesService;
 
-    @ApiOperation(
-            value = "Read categories tree",
-            authorizations = {
-                    @Authorization(value = "multibanking_auth", scopes = {
-                            @AuthorizationScope(scope = "openid", description = "")
-                    })})
+    @Operation(description = "Read categories tree", security = {
+        @SecurityRequirement(name = "multibanking_auth", scopes = "openid")})
     @GetMapping
     public Resource<CategoriesTree> getCategories() {
         CategoriesTreeEntity categoriesTree = analyticsConfigProvider.getCategoriesContainer();
@@ -47,24 +41,16 @@ public class CategoriesController {
         return new Resource<>(categoriesTree);
     }
 
-    @ApiOperation(
-            value = "Update categories tree",
-            authorizations = {
-                    @Authorization(value = "multibanking_auth", scopes = {
-                            @AuthorizationScope(scope = "openid", description = "")
-                    })})
+    @Operation(description = "Update categories tree", security = {
+        @SecurityRequirement(name = "multibanking_auth", scopes = "openid")})
     @PutMapping
     public HttpEntity<Void> updateCategories(@RequestBody CategoriesTree categoriesContainer) {
         categoriesService.saveCategories(categoriesContainer);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @ApiOperation(
-            value = "Upload categories tree file",
-            authorizations = {
-                    @Authorization(value = "multibanking_auth", scopes = {
-                            @AuthorizationScope(scope = "openid", description = "")
-                    })})
+    @Operation(description = "Upload categories tree file", security = {
+        @SecurityRequirement(name = "multibanking_auth", scopes = "openid")})
     @PostMapping(path = "/upload")
     public HttpEntity<Void> uploadCategories(@RequestParam MultipartFile categoriesFile) {
         if (!categoriesFile.isEmpty()) {

@@ -7,9 +7,9 @@ import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
 import de.adorsys.smartanalytics.pers.api.ContractBlacklistEntity;
 import de.adorsys.smartanalytics.pers.utils.ImportUtils;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
-import io.swagger.annotations.AuthorizationScope;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Resource;
@@ -18,12 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import io.swagger.annotations.Api;
 
-@Api(tags = "Smartanalytics contract blacklist")
+@Tag(name = "Contract blacklist")
 @RequiredArgsConstructor
 @Slf4j
-@UserResource
 @RestController
 @RequestMapping(path = "api/v1/config/contract-blacklist")
 public class ContractBlacklistController {
@@ -31,12 +29,8 @@ public class ContractBlacklistController {
     private final AnalyticsConfigProvider analyticsConfigProvider;
     private final ContractBlacklistService contractBlacklistService;
 
-    @ApiOperation(
-            value = "Read contract blacklist configuration",
-            authorizations = {
-                    @Authorization(value = "multibanking_auth", scopes = {
-                            @AuthorizationScope(scope = "openid", description = "")
-                    })})
+    @Operation(description = "Read contract blacklist configuration", security = {
+        @SecurityRequirement(name = "multibanking_auth", scopes = "openid")})
     @GetMapping
     public Resource<ContractBlacklist> getContractBlackList() {
         ContractBlacklistEntity contractBlacklist = analyticsConfigProvider.getContractBlacklist();
@@ -47,24 +41,16 @@ public class ContractBlacklistController {
         return new Resource<>(contractBlacklist);
     }
 
-    @ApiOperation(
-            value = "Update contract blacklist configuration",
-            authorizations = {
-                    @Authorization(value = "multibanking_auth", scopes = {
-                            @AuthorizationScope(scope = "openid", description = "")
-                    })})
+    @Operation(description = "Update contract blacklist configuration", security = {
+        @SecurityRequirement(name = "multibanking_auth", scopes = "openid")})
     @PutMapping
     public HttpEntity<Void> updateContractBlackList(@RequestBody ContractBlacklist contractBlacklist) {
         contractBlacklistService.saveContractBlacklist(contractBlacklist);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @ApiOperation(
-            value = "Upload contract blacklist configuration file",
-            authorizations = {
-                    @Authorization(value = "multibanking_auth", scopes = {
-                            @AuthorizationScope(scope = "openid", description = "")
-                    })})
+    @Operation(description = "Upload contract blacklist configuration file", security = {
+        @SecurityRequirement(name = "multibanking_auth", scopes = "openid")})
     @PostMapping(path = "/upload")
     public HttpEntity<Void> uploadContractBlackList(@RequestParam MultipartFile contractBlacklistFile) {
         if (!contractBlacklistFile.isEmpty()) {

@@ -81,6 +81,8 @@ sts:
       issUrl: ${idp.baseUrl}/auth/realms/${idp.realm}
       jwksUrl: ${idp.baseUrl}/auth/realms/${idp.realm}/protocol/openid-connect/certs
 
+springdoc.packagesToScan: de.adorsys.smartanalytics.web
+
 ---
 
 spring:

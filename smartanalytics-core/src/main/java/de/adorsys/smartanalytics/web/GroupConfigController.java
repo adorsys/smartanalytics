@@ -7,9 +7,9 @@ import de.adorsys.smartanalytics.exception.FileUploadException;
 import de.adorsys.smartanalytics.exception.ResourceNotFoundException;
 import de.adorsys.smartanalytics.pers.api.BookingGroupConfigEntity;
 import de.adorsys.smartanalytics.pers.utils.ImportUtils;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
-import io.swagger.annotations.AuthorizationScope;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Resource;
@@ -18,12 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import io.swagger.annotations.Api;
 
-@Api(tags = "Smartanalytics groups config")
+@Tag(name = "Groups config")
 @RequiredArgsConstructor
 @Slf4j
-@UserResource
 @RestController
 @RequestMapping(path = "api/v1/config/booking-groups")
 public class GroupConfigController {
@@ -31,12 +29,8 @@ public class GroupConfigController {
     private final AnalyticsConfigProvider analyticsConfigProvider;
     private final BookingGroupsService bookingGroupsService;
 
-    @ApiOperation(
-            value = "Read booking groups configuration",
-            authorizations = {
-                    @Authorization(value = "multibanking_auth", scopes = {
-                            @AuthorizationScope(scope = "openid", description = "")
-                    })})
+    @Operation(description = "Read booking groups configuration", security = {
+        @SecurityRequirement(name = "multibanking_auth", scopes = "openid")})
     @GetMapping
     public Resource<GroupConfig> getBookingGroups() {
         BookingGroupConfigEntity groupConfig = analyticsConfigProvider.getBookingGroupConfig();
@@ -47,24 +41,16 @@ public class GroupConfigController {
         return new Resource<>(groupConfig);
     }
 
-    @ApiOperation(
-            value = "Update booking groups configuration",
-            authorizations = {
-                    @Authorization(value = "multibanking_auth", scopes = {
-                            @AuthorizationScope(scope = "openid", description = "")
-                    })})
+    @Operation(description = "Update booking groups configuration", security = {
+        @SecurityRequirement(name = "multibanking_auth", scopes = "openid")})
     @PutMapping
     public HttpEntity<Void> updateBookingGroups(@RequestBody GroupConfig groupsContainer) {
         bookingGroupsService.saveBookingGroups(groupsContainer);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @ApiOperation(
-            value = "Upload booking groups configuration file",
-            authorizations = {
-                    @Authorization(value = "multibanking_auth", scopes = {
-                            @AuthorizationScope(scope = "openid", description = "")
-                    })})
+    @Operation(description = "Upload booking groups configuration file", security = {
+        @SecurityRequirement(name = "multibanking_auth", scopes = "openid")})
     @PostMapping(path = "/upload")
     public HttpEntity<Void> uploadBookingGroups(@RequestParam MultipartFile bookingGroupsFile) {
         if (!bookingGroupsFile.isEmpty()) {
