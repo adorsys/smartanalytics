@@ -71,4 +71,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: adorsys/${SMARTANALYTICS_IMAGE_NAME}:${SMARTANALYTICS_IMAGE_TAG}
+          tags: adorsys/${{ env.SMARTANALYTICS_IMAGE_NAME }}:${{ env.SMARTANALYTICS_IMAGE_TAG }}
