@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_and_test:
-    name: Build and test Smartanalytics (openjdk 1.11)
+    name: Build and test smartanalytics (openjdk 1.11)
     runs-on: ubuntu-latest
     steps:
       - name: Clone Smartanalytics repository
@@ -26,8 +26,9 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Build Smartanalytics
+      - name: Build smartanalytics
         run: mvn -ntp -Dmaven.javadoc.skip=true clean compile
 
       - name: Run Unit Tests
         run: mvn -ntp -DskipITs --fail-at-end clean test
+
