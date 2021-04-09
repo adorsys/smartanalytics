@@ -31,4 +31,3 @@ jobs:
 
       - name: Run Unit Tests
         run: mvn -ntp -DskipITs --fail-at-end clean test
-

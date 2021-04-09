@@ -39,6 +39,7 @@ jobs:
   deploy:
     name: Deploy docker image to the registry test
     needs: build_and_test
+    runs-on: ubuntu-latest
     steps:
       - name: Clone Smartanalytics repository
         uses: actions/checkout@v2
