@@ -16,6 +16,7 @@ env:
   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
   SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
   SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+  SMARTANALYTICS_IMAGE_NAME: smartanalytics
 
 jobs:
   build_and_test:
@@ -44,12 +45,12 @@ jobs:
       - name: Run Unit Tests
         run: mvn -ntp -DskipITs --fail-at-end clean test
 
-  deployMavenCentral:
-    name: Publish smartanalytics artifacts to Maven Central
-    needs: [build_and_test]
+   deploy:
+    name: Deploy docker image to the registry test and release to maven central
+    needs: build_and_test
     runs-on: ubuntu-latest
     steps:
-      - name: Clone Modelbank repository
+      - name: Clone Smartanalytics repository
         uses: actions/checkout@v2
 
       - name: Set up JDK 11 for x64
@@ -64,6 +65,25 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
+      - name: Build smartanalytics and create jar files
+        run: mvn -ntp -Dmaven.javadoc.skip=true -DskipITs -DskipTests clean package
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Get docker tags
+        run: GIT_TAG=`git describe --tags --abbrev=0 | sed 's/v//'` && echo $GIT_TAG
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: adorsys/${{ env.SMARTANALYTICS_IMAGE_NAME }}:${GIT_TAG}
 
       - name: Publish to Maven Central
         run: |
