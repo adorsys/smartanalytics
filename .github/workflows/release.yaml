@@ -75,15 +75,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Get docker tags
-        run: GIT_TAG=`git describe --tags --abbrev=0 | sed 's/v//'` && echo $GIT_TAG
-
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: adorsys/${{ env.SMARTANALYTICS_IMAGE_NAME }}:${{ env.GIT_TAG }}
+          tags: adorsys/${{ env.SMARTANALYTICS_IMAGE_NAME }}:${{ github.ref }}
 
       - name: Publish to Maven Central
         run: |
