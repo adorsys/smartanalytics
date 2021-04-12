@@ -77,15 +77,14 @@ jobs:
 
       - name: Get docker tags
         run: |
-          export GIT_TAG=`git describe --tags --abbrev=0 | sed 's/v//'`
-          echo "::set-env name=GIT_TAG::$GIT_TAG"
+          echo  "GIT_TAG=`git describe --tags --abbrev=0 | sed 's/v//'`" >> $GITHUB_ENV
 
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: adorsys/${{ env.SMARTANALYTICS_IMAGE_NAME }}:${GIT_TAG}
+          tags: adorsys/${{ env.SMARTANALYTICS_IMAGE_NAME }}:${{ env.GIT_TAG }}
 
       - name: Publish to Maven Central
         run: |
