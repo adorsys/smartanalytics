@@ -87,6 +87,6 @@ jobs:
           DOCKERHUB_IMAGE_NAME: adorsys/${{ env.SMARTANALYTICS_IMAGE_NAME }}:${{ env.SMARTANALYTICS_IMAGE_TAG }}
           OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_OBG_INTEG }}/${{ env.SMARTANALYTICS_IMAGE_NAME }}:latest
         run: |
-          docker push ${DOCKERHUB_IMAGE_NAME}
+          docker pull ${DOCKERHUB_IMAGE_NAME}
           docker tag ${DOCKERHUB_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
           docker push ${OPENSHIFT_IMAGE_NAME}
