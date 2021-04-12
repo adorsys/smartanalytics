@@ -76,9 +76,9 @@ jobs:
           tags: adorsys/${{ env.SMARTANALYTICS_IMAGE_NAME }}:${{ env.SMARTANALYTICS_IMAGE_TAG }}
 
       - name: OBG-INTEG Docker login
-        uses: azure/docker-login@v1
+        uses: docker/login-action@v1
         with:
-          login-server: ${{ env.OPENSHIFT_REGISTRY }}
+          registry: ${{ env.OPENSHIFT_REGISTRY }}
           username: ${{ secrets.OPENSHIFT_OBG_INTEG_USER }}
           password: ${{ secrets.OPENSHIFT_OBG_INTEG_TOKEN }}
 
