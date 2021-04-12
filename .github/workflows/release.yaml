@@ -76,14 +76,15 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Get docker tags
-        run: GIT_TAG=`git describe --tags --abbrev=0 | sed 's/v//'` && echo $GIT_TAG
+        run: |
+          echo  "GIT_TAG=`git describe --tags --abbrev=0 | sed 's/v//'`" >> $GITHUB_ENV
 
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: adorsys/${{ env.SMARTANALYTICS_IMAGE_NAME }}:${GIT_TAG}
+          tags: adorsys/${{ env.SMARTANALYTICS_IMAGE_NAME }}:${{ env.GIT_TAG }}
 
       - name: Publish to Maven Central
         run: |
@@ -91,4 +92,8 @@ jobs:
           export GPG_TTY="$( tty )" #need to run to sign artifacts with maven
           echo ${{ secrets.GPG_SECRET_KEY }} | base64 --decode | gpg --import --batch
           echo ${{ secrets.GPG_OWNERTRUST }} | base64 --decode | gpg --batch --import-ownertrust
-          mvn -ntp --settings scripts/mvn-release-settings.xml -Prelease -DskipTests -U deploy
+          mvn -ntp --settings scripts/mvn-release-settings.xml \
+          -Dhttp.keepAlive=false \
+          -Dmaven.wagon.http.pool=false \
+          -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+          -Prelease -DskipTests -U deploy
