@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Profile({"mongo-persistence", "fongo"})
 @Service
-public class BookingGroupsRepositoryImpl implements BookingGroupRepositoryIf {
+public class BookingGroupsRepositoryMongoImpl implements BookingGroupRepositoryIf {
 
     private final BookingGroupsRepositoryMongodb groupsRepository;
 

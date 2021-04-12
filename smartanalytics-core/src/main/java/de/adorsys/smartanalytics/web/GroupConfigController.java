@@ -55,7 +55,7 @@ public class GroupConfigController {
     public HttpEntity<Void> uploadBookingGroups(@RequestParam MultipartFile bookingGroupsFile) {
         if (!bookingGroupsFile.isEmpty()) {
             try {
-                bookingGroupsService.saveBookingGroups(ImportUtils.importBookingGroups(bookingGroupsFile.getInputStream()));
+                bookingGroupsService.saveBookingGroups(ImportUtils.readAsYaml(bookingGroupsFile.getInputStream(), GroupConfig.class));
 
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } catch (Exception e) {

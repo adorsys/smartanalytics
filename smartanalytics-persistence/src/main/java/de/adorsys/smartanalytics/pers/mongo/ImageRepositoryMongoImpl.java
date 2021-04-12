@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Profile({"mongo-persistence", "fongo"})
 @Service
-public class ImageRepositoryImpl implements ImageRepositoryIf {
+public class ImageRepositoryMongoImpl implements ImageRepositoryIf {
 
     private final GridFsTemplate gridFsTemplate;
 

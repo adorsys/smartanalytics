@@ -35,7 +35,7 @@ public class RulesService {
     private final StatusService statusService;
 
     public void newRules(String fileName, InputStream inputStream) throws IOException {
-        List<RuleEntity> rules = ImportUtils.importRules(inputStream);
+        List<RuleEntity> rules = ImportUtils.readRules(inputStream);
         rules.forEach(RuleEntity::updateSearchIndex);
         log.info("new [{}] rules", rules.size());
 

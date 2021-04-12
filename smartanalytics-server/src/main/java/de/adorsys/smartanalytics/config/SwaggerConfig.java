@@ -25,7 +25,7 @@ import static io.swagger.v3.oas.models.security.SecurityScheme.Type.OAUTH2;
 @Profile("swagger")
 public class SwaggerConfig {
 
-    @Value("${idp.baseUrl}")
+    @Value("${idp.baseUrl:}")
     private String idpBaseUrl;
     @Value("${info.project.version}")
     private String version;

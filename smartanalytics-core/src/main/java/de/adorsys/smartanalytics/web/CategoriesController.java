@@ -55,7 +55,7 @@ public class CategoriesController {
     public HttpEntity<Void> uploadCategories(@RequestParam MultipartFile categoriesFile) {
         if (!categoriesFile.isEmpty()) {
             try {
-                categoriesService.saveCategories(ImportUtils.importCategories(categoriesFile.getInputStream()));
+                categoriesService.saveCategories(ImportUtils.readAsYaml(categoriesFile.getInputStream(), CategoriesTree.class));
 
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } catch (Exception e) {

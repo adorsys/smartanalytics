@@ -11,7 +11,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Profile({"mongo-persistence", "fongo"})
 @Service
-public class StatusRepositoryImpl implements StatusRepositoryIf {
+public class StatusRepositoryMongoImpl implements StatusRepositoryIf {
 
     private final StatusRepositoryMongodb statusRepository;
 

@@ -55,7 +55,7 @@ public class ContractBlacklistController {
     public HttpEntity<Void> uploadContractBlackList(@RequestParam MultipartFile contractBlacklistFile) {
         if (!contractBlacklistFile.isEmpty()) {
             try {
-                contractBlacklistService.saveContractBlacklist(ImportUtils.importContractBlackList(contractBlacklistFile.getInputStream()));
+                contractBlacklistService.saveContractBlacklist(ImportUtils.readAsYaml(contractBlacklistFile.getInputStream(), ContractBlacklist.class));
 
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } catch (Exception e) {

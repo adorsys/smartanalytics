@@ -17,7 +17,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Profile({"mongo-persistence", "fongo"})
 @Service
-public class RuleRepositoryImpl implements RuleRepositoryIf {
+public class RuleRepositoryMongoImpl implements RuleRepositoryIf {
 
     private final RuleRepositoryMongodb ruleRepositoryMongo;
     private final MongoTemplate mongoTemplate;

@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Profile({"mongo-persistence", "fongo"})
 @Service
-public class ContractBlacklistRepositoryImpl implements ContractBlacklistRepositoryIf {
+public class ContractBlacklistRepositoryMongoImpl implements ContractBlacklistRepositoryIf {
 
     private final ContractBlacklistRepositoryMongodb contractBlacklistRepository;
 
