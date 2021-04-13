@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,7 +52,7 @@ public class GroupConfigController {
 
     @Operation(description = "Upload booking groups configuration file", security = {
         @SecurityRequirement(name = "multibanking_auth", scopes = "openid")})
-    @PostMapping(path = "/upload")
+    @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public HttpEntity<Void> uploadBookingGroups(@RequestParam MultipartFile bookingGroupsFile) {
         if (!bookingGroupsFile.isEmpty()) {
             try {

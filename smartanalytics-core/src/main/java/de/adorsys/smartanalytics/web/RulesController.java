@@ -105,7 +105,7 @@ public class RulesController {
 
     @Operation(description = "Upload categorization rules file", security = {
         @SecurityRequirement(name = "multibanking_auth", scopes = "openid")})
-    @PostMapping(path = "/upload")
+    @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public HttpEntity<Void> uploadRules(@RequestParam MultipartFile rulesFile) {
         if (!rulesFile.isEmpty()) {
             try {

@@ -14,7 +14,7 @@
 
     <properties>
         <sts.version>0.25.1</sts.version>
-        <springdoc.version>1.2.26</springdoc.version>
+        <springdoc.version>1.5.7</springdoc.version>
     </properties>
 
     <dependencies>

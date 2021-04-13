@@ -32,7 +32,7 @@ public class ImageController {
 
     @Operation(description = "Upload images file", security = {
         @SecurityRequirement(name = "multibanking_auth", scopes = "openid")})
-    @PostMapping(path = "/upload")
+    @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public HttpEntity<Void> uploadImages(@RequestParam MultipartFile imagesFile) {
         if (!imagesFile.isEmpty()) {
             try {
