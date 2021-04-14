@@ -40,6 +40,7 @@ public class StatusRepositoryFileImpl implements StatusRepositoryIf {
 
     @Override
     public void save(ConfigStatusEntity statusEntity) {
+        configStatusEntity = statusEntity;
         try {
             ImportUtils.writeObjectToYaml(new File(confDir, STATUS_YML), statusEntity);
         } catch (IOException e) {
