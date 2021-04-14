@@ -9,12 +9,14 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.OAuthFlow;
 import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,7 @@ import static io.swagger.v3.oas.models.security.SecurityScheme.Type.OAUTH2;
 
 @Configuration
 @Profile("swagger")
-public class SwaggerConfig {
+public class OpenAPIConfig {
 
     @Value("${idp.baseUrl:}")
     private String idpBaseUrl;
@@ -35,6 +37,7 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
+            .servers(Collections.singletonList(new Server().url("/")))
             .info(new Info().title("Smartanalytics Rest API")
                 .version(version)
                 .contact(new Contact().name("Alexander Geist").email("age@adorsys.de").url("https://www.adorsys.de"))
