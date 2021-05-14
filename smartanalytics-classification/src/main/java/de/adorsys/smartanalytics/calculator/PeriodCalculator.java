@@ -28,9 +28,11 @@ public class PeriodCalculator {
                 firstBookingDate = firstBookingDate.plusMonths(1);
             }
 
-            for (int i = 0; i < 11; i++) {
-                LocalDate previousMonth = bookingDates.get(bookingDates.size() - 1);
-                bookingDates.add(previousMonth.plusMonths(1));
+            if (!bookingDates.isEmpty()) {
+                for (int i = 0; i < 11; i++) {
+                    LocalDate previousMonth = bookingDates.get(bookingDates.size() - 1);
+                    bookingDates.add(previousMonth.plusMonths(1));
+                }
             }
         }
 
