@@ -12,7 +12,37 @@ For more information, advice for your implementation project or if your use case
 
 For additional details please see the section “FAQ on Licensing Change”. 
 
-FAQ on Licensing Change 
+
+
+## Release process
+
+1. Assure that you have rights to push to develop and master branches
+2. Check the build and Javadocs locally:
+```bash
+mvn clean install javadoc:javadoc
+```
+3. Setup release scripts for your local copy
+```bash
+git submodule update
+```
+or
+```bash
+git submodule init
+```
+4. Make a release from develop branch by following command:
+```
+scripts/release-scripts/release.sh 0.0.1 0.0.2
+```
+Where:  
+-- 0.0.1 - a version to release  
+-- 0.0.2 - a next version to develop
+5. Follow release scripts commands, including push
+
+
+More details see in release-scripts: https://github.com/borisskert/release-scripts
+
+
+## FAQ on Licensing Change 
 
 What is a dual-licensing model? 
 
@@ -93,31 +123,3 @@ Datasafe.
 I’m using one of these products indirectly via some software integrator. How does the licensing change affect me? 
 
 The licensing change does not affect you as user, but it is relevant to your provider who has used our product in their solution implementation. In case of uncertainty please contact your service provider or approach us at sales@adorsys.com. 
-
-
-## Release process
-
-1. Assure that you have rights to push to develop and master branches
-2. Check the build and Javadocs locally:
-```bash
-mvn clean install javadoc:javadoc
-```
-3. Setup release scripts for your local copy
-```bash
-git submodule update
-```
-or
-```bash
-git submodule init
-```
-4. Make a release from develop branch by following command:
-```
-scripts/release-scripts/release.sh 0.0.1 0.0.2
-```
-Where:  
--- 0.0.1 - a version to release  
--- 0.0.2 - a next version to develop
-5. Follow release scripts commands, including push
-
-
-More details see in release-scripts: https://github.com/borisskert/release-scripts
