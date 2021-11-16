@@ -78,20 +78,20 @@ We at adorsys are committed to continue actively participating in the open-sourc
 licensed under OSI-approved open-source licenses, and we are looking forward to expanding our product portfolio on GitHub even further.
 
 ## How does the change impact me if I already use the open-source edition of your product?
-All currently published versions until v1.0.0.1 will remain under their current Apache 2.0 license and its respective
+All currently published versions until v2.3.10 will remain under their current Apache 2.0 license and its respective
 requirements and you may continue using it as-is. To upgrade to future versions, you will be required to either abide
 by the requirements of AGPL v3, including documenting and sharing your implemented changes to the product when distributing,
 or alternatively approach us to obtain a commercial license.
 
 ## What if I cannot adjust to the new licensing model until 01.01.2022? Can I extend the deadline?
 We understand that adjustment to licensing changes can take time and therefore are open to discuss extension options
-on an individual basis. For inquiries please contact us as [psd2@adorsys.com](psd2:sales@adorsys.com).
+on an individual basis. For inquiries please contact us as [psd2@adorsys.com](mailto:sales@adorsys.com).
 
 ## Which versions of the product are affected?
-All versions of Datasafe after v1.0.0.1 will be affected by the licensing changes and move to a dual-licensing model.
+All versions of Smart Analytics after v2.3.10 will be affected by the licensing changes and move to a dual-licensing model.
 
 ## What will happen to older, Apache 2.0 licensed product versions?
-All older Apache 2.0 licensed versions prior and including v1.0.0.1 will remain available under their existing license.
+All older Apache 2.0 licensed versions prior and including v2.3.10 will remain available under their existing license.
 
 ## What open-source products from Adorsys are affected by the licensing change?
 The following products are affected:
