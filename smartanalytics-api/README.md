@@ -2,7 +2,7 @@
 
 ## LICENSE
 
-APACHE LICENSE 2.0
+Affero GNU General Public License v.3 (AGPL v.3).
 See [LICENSE.md](LICENSE.md)
 
 ## Release process
